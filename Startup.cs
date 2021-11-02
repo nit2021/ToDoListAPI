@@ -33,11 +33,11 @@ namespace ToDoListAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ToDoContext>(optionsAction=>
+            services.AddDbContext<ToDoContext>(optionsAction =>
             optionsAction.UseSqlServer(Configuration.GetConnectionString("ToDoContext")));
             //services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
 
             #region ConfigureSwagger
             services.AddSwaggerGen(options =>
@@ -45,41 +45,42 @@ namespace ToDoListAPI
                 options.SwaggerDoc("v1",
                 new Microsoft.OpenApi.Models.OpenApiInfo
                 {
-                    Title="ToDoList Demo API",
-                    Description="Demo for showing swagger",
-                    Version="v1"
+                    Title = "ToDoList Demo API",
+                    Description = "Demo for showing swagger",
+                    Version = "v1"
                 });
-                options.AddSecurityDefinition("basic", new OpenApiSecurityScheme  
-                {  
-                    Name = "Authorization",  
-                    Type = SecuritySchemeType.Http,  
-                    Scheme = "basic",  
-                    In = ParameterLocation.Header,  
-                    Description = "Basic Authorization header using the Bearer scheme."  
+                options.EnableAnnotations();
+                options.AddSecurityDefinition("basic", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "basic",
+                    In = ParameterLocation.Header,
+                    Description = "Basic Authorization header using the Bearer scheme."
                 });
-                options.AddSecurityRequirement(new OpenApiSecurityRequirement  
-                {  
-                    {  
-                          new OpenApiSecurityScheme  
-                            {  
-                                Reference = new OpenApiReference  
-                                {  
-                                    Type = ReferenceType.SecurityScheme,  
-                                    Id = "basic"  
-                                }  
-                            },  
-                            new string[] {}  
-                    }  
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                          new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "basic"
+                                }
+                            },
+                            new string[] {}
+                    }
                 });
             });
             #endregion
 
-            services.AddAuthentication("BasicAuthentication")  
-            .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);  
-  
-            services.AddScoped<IUserService, UserService>();  
-            services.AddScoped<IToDoService, ToDoService>();  
-            
+            services.AddAuthentication("BasicAuthentication")
+            .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IToDoService, ToDoService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -88,10 +89,10 @@ namespace ToDoListAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();  
-                app.UseSwaggerUI(c =>  
-                {  
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Test1 Api v1");  
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Test1 Api v1");
                 });
             }
 
@@ -100,7 +101,7 @@ namespace ToDoListAPI
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

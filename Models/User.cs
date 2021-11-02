@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 using ToDoListAPI.Models;
 
 namespace ToDoListAPI.Models
 {
+    [DataContract]
     public class User
     {
 
@@ -13,6 +15,7 @@ namespace ToDoListAPI.Models
         /// </summary>
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DataMember]
         public int UserId { get; set; }
 
         /// <summary>
@@ -20,6 +23,7 @@ namespace ToDoListAPI.Models
         /// </summary>
         [Required]
         [MaxLength(50)]
+        [DataMember]
         public string UserName { get; set; }
 
         /// <summary>
@@ -28,10 +32,6 @@ namespace ToDoListAPI.Models
         [Required]
         [MaxLength(50)]
         public string Password { get; set; }
-
-        [ForeignKey("Owner")]
-        [Required]
-        public ICollection<ToDoItem> ToDoItems { get; set; }
 
     }
 }

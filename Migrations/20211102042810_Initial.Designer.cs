@@ -10,8 +10,8 @@ using ToDoListAPI.DAL;
 namespace ToDoListAPI.Migrations
 {
     [DbContext(typeof(ToDoContext))]
-    [Migration("20211030171257_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20211102042810_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -56,6 +56,7 @@ namespace ToDoListAPI.Migrations
                         .HasMaxLength(50);
 
                     b.Property<int?>("Owner")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("ItemId");
@@ -106,9 +107,11 @@ namespace ToDoListAPI.Migrations
 
             modelBuilder.Entity("ToDoListAPI.Models.ToDoItem", b =>
                 {
-                    b.HasOne("ToDoListAPI.Models.User", null)
-                        .WithMany("ToDoItems")
-                        .HasForeignKey("Owner");
+                    b.HasOne("ToDoListAPI.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("Owner")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

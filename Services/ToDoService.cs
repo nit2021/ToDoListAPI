@@ -7,6 +7,7 @@ using ToDoListAPI.DAL;
 using ToDoListAPI.Models;
 using ToDoListAPI.Services;
 using ToDoListAPI.Repository;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace ToDoListAPI.Services
 {
@@ -23,17 +24,17 @@ namespace ToDoListAPI.Services
 
         public async Task<PagedList<ToDoItem>> GetAllTodoList(OwnerParameters op)
         {
-            return await Task.FromResult(PagedList<ToDoItem>.ToPagedList(_context.ToDoItem, op.PageNumber, op.PageSize));
+            return await Task.FromResult(PagedList<ToDoItem>.ToPagedList(_context.ToDoItem.Where(x => x.User.UserId == _userService.userId), op.PageNumber, op.PageSize));
         }
 
         public async Task<IEnumerable<ToDoItem>> GetTodoListById(long id)
         {
-            return await _context.ToDoItem.Where(x => x.ItemId == id).ToListAsync();
+            return await _context.ToDoItem.Where(x => x.ItemId == id && x.User.UserId == _userService.userId).ToListAsync();
         }
 
         public async Task<PagedList<Label>> GetAllItemByLabelTag(OwnerParameters op)
         {
-            return await Task.FromResult(PagedList<Label>.ToPagedList(_context.Label, op.PageNumber, op.PageSize));
+            return await Task.FromResult(PagedList<Label>.ToPagedList(_context.Label.Where(x => x.ToDoItem.User.UserId == _userService.userId), op.PageNumber, op.PageSize));
         }
         public async Task DeleteTodoItem(long id)
         {
@@ -44,44 +45,73 @@ namespace ToDoListAPI.Services
                 await _context.SaveChangesAsync();
             }
         }
-         async Task<PagedList<ToDoItem>> IToDoService.SearchTodoList(string filter, OwnerParameters op)
+        async Task<PagedList<ToDoItem>> IToDoService.SearchTodoList(string filter, OwnerParameters op)
         {
-            return await Task.FromResult(PagedList<ToDoItem>.ToPagedList(_context.ToDoItem.Where(x => x.Description == filter), op.PageNumber, op.PageSize));
+            return await Task.FromResult(PagedList<ToDoItem>.ToPagedList(_context.ToDoItem.Where(x => x.Description.Contains(filter) && x.User.UserId == _userService.userId), op.PageNumber, op.PageSize));
         }
 
         public async Task<ToDoItem> GetTodoItemById(long id)
         {
-            return await _context.ToDoItem.Where(x => x.ItemId == id).FirstOrDefaultAsync();
+            return await _context.ToDoItem.Where(x => x.ItemId == id && x.User.UserId == _userService.userId).FirstOrDefaultAsync();
         }
 
-        Task<IEnumerable<ToDoItem>> IToDoService.SearchTodoItem(string filter, OwnerParameters op)
+        public async Task<PagedList<ToDoItem>> SearchTodoItem(string filter, OwnerParameters op)
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(PagedList<ToDoItem>.ToPagedList(_context.ToDoItem.Where(x => x.Description.Contains(filter) && x.User.UserId == _userService.userId), op.PageNumber, op.PageSize));
         }
 
-        Task<ToDoItem> IToDoService.CreateTodoItem(ToDoItem newTodoItem)
+        public async Task<ToDoItem> CreateTodoItem(string ItemDesc)
         {
-            throw new NotImplementedException();
+            ToDoItem newitem = new ToDoItem();
+            newitem.Description = ItemDesc;
+            User user = _context.User.Where(x => x.UserId == _userService.userId).FirstOrDefault();
+            newitem.User = user;
+            _context.ToDoItem.Attach(newitem);
+            await _context.SaveChangesAsync();
+            return newitem;
         }
 
-        Task IToDoService.UpdateTodoItem(long todoItemId, ToDoItem todoItemToBeUpdated)
+        public async Task UpdateTodoItem(long todoItemId, string ItemDesc)
         {
-            throw new NotImplementedException();
+            var todoItem = await _context.ToDoItem.Where(x => x.ItemId == todoItemId).FirstOrDefaultAsync();
+            if (todoItem != null)
+            {
+                todoItem.Description = ItemDesc;
+                _context.Update(todoItem);
+                await _context.SaveChangesAsync();
+            }
         }
 
-        Task IToDoService.DeleteTodoItem(long id)
+        public async Task<ToDoItem> PatchTodoItem(long id, JsonPatchDocument<ToDoItem> todoItem)
         {
-            throw new NotImplementedException();
+            var item = await _context.ToDoItem.Where(x => x.ItemId == id).FirstOrDefaultAsync();
+            if (item != null)
+            {
+                todoItem.ApplyTo(item);
+                _context.ToDoItem.Update(item);
+                await _context.SaveChangesAsync();
+            }
+            return item;
         }
 
-        Task<Label> IToDoService.CreateLabel(Label newLabel)
+        public async Task<Label> CreateLabel(int ItemId, string LabelDesc)
         {
-            throw new NotImplementedException();
+            Label newLabel = new Label();
+            newLabel.Description = LabelDesc;
+            newLabel.ToDoItem = new ToDoItem() { ItemId = ItemId };
+            _context.Label.Attach(newLabel);
+            await _context.SaveChangesAsync();
+            return newLabel;
         }
 
-        Task IToDoService.DeleteLabel(long id)
+        public async Task DeleteLabel(long id)
         {
-            throw new NotImplementedException();
+            var todoItemToBeDeleted = await _context.Label.Where(x => x.LabelId == id).FirstOrDefaultAsync();
+            if (todoItemToBeDeleted != null)
+            {
+                _context.Remove(todoItemToBeDeleted);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

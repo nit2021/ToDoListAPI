@@ -1,8 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 using ToDoListAPI.Models;
 namespace ToDoListAPI.Models
 {
+    [DataContract]
     public partial class Label
     {
 
@@ -11,6 +13,7 @@ namespace ToDoListAPI.Models
         /// </summary>
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DataMember]
         public int LabelId { get; set; }
 
 
@@ -19,6 +22,7 @@ namespace ToDoListAPI.Models
         /// </summary>
         [Required]
         [MaxLength(50)]
+        [DataMember]
         public string Description { get; set; }
 
         [ForeignKey("ItemID")]

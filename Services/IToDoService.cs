@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.JsonPatch;
 using ToDoListAPI.Models;
 
 namespace ToDoListAPI.Services
@@ -18,11 +19,11 @@ namespace ToDoListAPI.Services
 
         //Task<PagedList<ToDoItem>> GetAllTodoItem(OwnerParameters op);
         Task<ToDoItem> GetTodoItemById(long id);
-        Task<IEnumerable<ToDoItem>> SearchTodoItem(string filter, OwnerParameters op);
+        Task<PagedList<ToDoItem>> SearchTodoItem(string filter, OwnerParameters op);
         //Task<IEnumerable<ToDoItem>> GetTodoItemByTodoListId(long todoListId);
-        Task<ToDoItem> CreateTodoItem(ToDoItem newTodoItem);
-        Task UpdateTodoItem(long todoItemId, ToDoItem todoItemToBeUpdated);
-        //Task PatchTodoItem(long id, JsonPatchDocument<ToDoItem> todoItem);
+        Task<ToDoItem> CreateTodoItem(string ItemDesc);
+        Task UpdateTodoItem(long todoItemId, string ItemDesc);
+        Task<ToDoItem> PatchTodoItem(long id, JsonPatchDocument<ToDoItem> todoItem);
         Task DeleteTodoItem(long id);
 
 
@@ -31,7 +32,7 @@ namespace ToDoListAPI.Services
 
         Task<PagedList<Label>> GetAllItemByLabelTag(OwnerParameters op);
         //Task<Label> GetLabelById(long id);
-        Task<Label> CreateLabel(Label newLabel);
+        Task<Label> CreateLabel(int ItemId, string LabelDesc);
         Task DeleteLabel(long id);
     }
 }
