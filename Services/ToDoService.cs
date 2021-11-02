@@ -1,12 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ToDoListAPI.DAL;
 using ToDoListAPI.Models;
-using ToDoListAPI.Services;
-using ToDoListAPI.Repository;
 using Microsoft.AspNetCore.JsonPatch;
 
 namespace ToDoListAPI.Services
