@@ -1,13 +1,20 @@
 ToDoListAPI
+-----------
+
 
 PreRequisites
+-------------
+
 Visual Studio Code,
+
 .Net Core SDK 3.1.414 or later,
-SQL Server Express
+
+SQL Server Express 2017 or later
 
 Steps
+-----
 
-Code SetUp
+Code Setup
 ----------
 
 1. Download ToDoAPI repository from
@@ -17,18 +24,19 @@ https://github.com/nit2021/ToDoListAPI.git
 4. Run command dotnet restore
 5. Run below command to setup DB
 
-DB SetUp
+DB Setup
 --------
 
 6. Run command below in terminal to create migration
-
+	
 	"dotnet ef migrations add Initial --context ToDoContext"
 	
 7. Run command below in terminal to create database in SQL Express
-
+	
 	"dotnet ef database update"
 
 The above command will create database with one default username:"Admin" and PassWord="PaSSw0rd" in it.
+
 
 Optional[To Add more users]
 
@@ -36,19 +44,24 @@ A) You can add more user by visiting ToDoContext.cs file then in OnModelCreating
 
 modelBuilder.Entity<User>().HasData(new User { UserId = {101}, UserName = "{Username}", Password = "{userpassword});
  
+
 B) Add new migration name to below command and run command in terminal
 	
 	"dotnet ef migrations add {New Migration Name} --context ToDoContext"
 	
+
 C) Run command below in terminal to update database in SQL Express
 	
 	"dotnet ef database update"
+
 
 Hosting Application
 -------------------
 	
 8. Run command below to host application
+	
 	"dotnet run"
+	
 9. Go to https://localhost:5001/swagger/index.html 
 10. Click Authorize to with username and password. 
 11. Close credential pop up windows
