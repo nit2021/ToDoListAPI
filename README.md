@@ -21,17 +21,18 @@ Code Setup
 https://github.com/nit2021/ToDoListAPI.git
 2. After extraction open folder select folder "ToDoListAPI-master"  and open with VS code.
 3. Open Terminal
-4. Run command dotnet restore
-5. Run below command to setup DB
+4. Run command below
+	
+	"dotnet restore"
 
 DB Setup
 --------
 
-6. Run command below in terminal to create migration
+5. Run command below in terminal to create migration
 	
 	"dotnet ef migrations add Initial --context ToDoContext"
 	
-7. Run command below in terminal to create database in SQL Express
+6. Run command below in terminal to create database in SQL Express
 	
 	"dotnet ef database update"
 
@@ -58,14 +59,14 @@ C) Run command below in terminal to update database in SQL Express
 Hosting Application
 -------------------
 	
-8. Run command below to host application
+7. Run command below to host application
 	
 	"dotnet run"
 	
-9. Go to https://localhost:5001/swagger/index.html 
-10. Click Authorize to with username and password. 
-11. Close credential pop up windows
-12. Execute respective endpoint after clicking Try it out.
+8. Go to https://localhost:5001/swagger/index.html 
+9. Click Authorize to with username and password. 
+10. Close credential pop up windows
+11. Execute respective endpoint after clicking Try it out.
 
 You can set different application url in launchsetting.json in case you are already using some port or want to provide different port.
 
