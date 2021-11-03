@@ -1,8 +1,8 @@
 ToDoListAPI
 
 PreRequisites
-Visual Studio Code
-.Net Core SDK 3.1.414 or later
+Visual Studio Code,
+.Net Core SDK 3.1.414 or later,
 SQL Server Express
 
 Steps
