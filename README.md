@@ -18,22 +18,28 @@ https://github.com/nit2021/ToDoListAPI
 5. Run below command to setup DB
 
 DB SetUp
+
 6. Run command below in terminal to create migration
-	dotnet ef migrations add Initial --context ToDoContext
+
+	"dotnet ef migrations add Initial --context ToDoContext"
+	
 7. Run command below in terminal to create database in SQL Express
-	dotnet ef database update
+
+	"dotnet ef database update"
 
 The above command will create database with one default username:"Admin" and PassWord="PaSSw0rd" in it.
 
 Optional[To Add more users]
 --------
 A) You can add more user by visiting ToDoContext.cs file then in OnModelCreating method add below line and save.
+
 modelBuilder.Entity<User>().HasData(new User { UserId = {101}, UserName = "{Username}", Password = "{userpassword});
-Repeat 
+ 
 B) Add new migration name to below command and run command in terminal
-	dotnet ef migrations add {New Migration Name} --context ToDoContext
+	"dotnet ef migrations add {New Migration Name} --context ToDoContext"
+	
 C) Run command below in terminal to update database in SQL Express
-	dotnet ef database update
+	"dotnet ef database update"
 
 Running Application
 -------------------
