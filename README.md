@@ -36,15 +36,18 @@ A) You can add more user by visiting ToDoContext.cs file then in OnModelCreating
 modelBuilder.Entity<User>().HasData(new User { UserId = {101}, UserName = "{Username}", Password = "{userpassword});
  
 B) Add new migration name to below command and run command in terminal
+	
 	"dotnet ef migrations add {New Migration Name} --context ToDoContext"
 	
 C) Run command below in terminal to update database in SQL Express
+	
 	"dotnet ef database update"
 
 Running Application
 -------------------
+	
 8. Run command below to host application
-	dotnet run
+	"dotnet run"
 9. Go to https://localhost:5001/swagger/index.html 
 10. Click Authorize to with username and password. 
 11. Close credential pop up windows
