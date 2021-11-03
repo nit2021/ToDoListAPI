@@ -13,7 +13,7 @@ namespace ToDoListAPI.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class ToDoListController : ControllerBase
     {
         private readonly IToDoService _todoItemService;

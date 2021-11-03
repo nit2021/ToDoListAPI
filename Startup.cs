@@ -76,8 +76,8 @@ namespace ToDoListAPI
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IToDoService, ToDoService>();
-            services.AddScoped<Query>();
-            services.AddGraphQL(c=>SchemaBuilder.New().AddServices(c).AddType<ToDoItemType>().AddQueryType<Query>().Create());
+            //services.AddScoped<Query>();
+            //services.AddGraphQL(c=>SchemaBuilder.New().AddServices(c).AddType<ToDoItemType>().AddQueryType<Query>().Create());
 
         }
 
@@ -92,13 +92,13 @@ namespace ToDoListAPI
                 {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Test1 Api v1");
                 });
-                app.UsePlayground(new PlaygroundOptions
-                {
-                    QueryPath = "/api",
-                    Path = "/playground"
-                });
+                // app.UsePlayground(new PlaygroundOptions
+                // {
+                //     QueryPath = "/api",
+                //     Path = "/playground"
+                // });
             }
-            app.UseGraphQL("/api");
+            //app.UseGraphQL("/api");
             app.UseHttpsRedirection();
             app.UseMiddleware<RequestResponseLoggingMiddleware>();
             app.UseRouting();
@@ -108,7 +108,7 @@ namespace ToDoListAPI
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapGraphQL();
+                //endpoints.MapGraphQL();
             });
             
         }
