@@ -27,19 +27,23 @@ https://github.com/nit2021/ToDoListAPI.git
 
 DB Setup
 --------
+5. Run command below in terminal to add ef
+	
+	"dotnet tool install --global dotnet-ef"
 
-5. Run command below in terminal to create migration
+6. Run command below in terminal to create migration
 	
 	"dotnet ef migrations add Initial --context ToDoContext"
 	
-6. Run command below in terminal to create database in SQL Express
+7. Run command below in terminal to create database in SQL Express
 	
 	"dotnet ef database update"
 
 The above command will create database with one default username:"Admin" and PassWord="PaSSw0rd" in it.
 
 
-Optional[To Add more users]
+Optional - "To Add more users"
+------------------------------
 
 A) You can add more user by visiting ToDoContext.cs file then in OnModelCreating method add below line and save.
 
@@ -59,30 +63,30 @@ C) Run command below in terminal to update database in SQL Express
 Hosting Application  
 -------------------
 	
-7. Run command below to host application
+8. Run command below to host application
 	
 	"dotnet run"
 	
 Using Swagger
 -------------
 	
-8. Go to https://localhost:5001/swagger/index.html 
-9. Click Authorize button, fill username and password in popup window. 
-10. Click login then close credential pop up windows
-11. Execute respective endpoint after clicking Try it out then execute.
+9. Go to https://localhost:5001/swagger/index.html 
+10. Click Authorize button, fill username and password in popup window. 
+11. Click login then close credential pop up windows
+12. Execute respective endpoint after clicking Try it out then execute.
 
 You can set different application url in launchsetting.json in case you are already using some port or want to provide different port.
 	
 Using GraphQL
 -------------
-8. Go to https://localhost:5001/graphql/
-9. Add below Authorization to Http Headers for user "Admin"
+9. Go to https://localhost:5001/graphql/
+10. Add below Authorization to Http Headers for user "Admin"
 
 	{
     		"Authorization": "Basic QWRtaW46UGEkJHcwcmQ="
 	}
 	
-10. Write quey or mutation command using schema in schema window for respective function. For example for item creation -
+11. Write quey or mutation command using schema in schema window for respective function. For example for item creation -
 	
 	mutation
 	{
@@ -94,4 +98,4 @@ Using GraphQL
 	      description
 	    }
 	}
-11. Click on execute button and run the command. 
+12. Click on execute button and run the command. 
