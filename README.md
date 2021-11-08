@@ -48,7 +48,7 @@ modelBuilder.Entity<User>().HasData(new User { UserId = {101}, UserName = "{User
 
 B) Add new migration name to below command and run command in terminal
 	
-	"dotnet ef migrations add {New Migration Name} --context ToDoContext"
+	"dotnet ef migrations add New_Migration_Name --context ToDoContext"
 	
 
 C) Run command below in terminal to update database in SQL Express
