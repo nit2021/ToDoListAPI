@@ -82,7 +82,7 @@ Using GraphQL
     		"Authorization": "Basic QWRtaW46UGEkJHcwcmQ="
 	}
 	
-10. Write quey or mutation commmand using schema in schema window for respective function. For example for item creation -
+10. Write quey or mutation command using schema in schema window for respective function. For example for item creation -
 	
 	mutation
 	{
