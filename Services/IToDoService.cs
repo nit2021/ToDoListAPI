@@ -19,9 +19,9 @@ namespace ToDoListAPI.Services
         Task<PagedList<ToDoItem>> SearchTodoItem(string filter, OwnerParameters op);
         //Task<IEnumerable<ToDoItem>> GetTodoItemByTodoListId(long todoListId);
         Task<ToDoItem> CreateTodoItem(string ItemDesc);
-        Task UpdateTodoItem(long todoItemId, string ItemDesc);
+        Task<ToDoItem> UpdateTodoItem(long todoItemId, string ItemDesc);
         Task<ToDoItem> PatchTodoItem(long id, JsonPatchDocument<ToDoItem> todoItem);
-        Task DeleteTodoItem(long id);
+        Task<ToDoItem> DeleteTodoItem(long id);
 
 
 
@@ -30,6 +30,6 @@ namespace ToDoListAPI.Services
         Task<PagedList<Label>> GetAllItemByLabelTag(OwnerParameters op);
         //Task<Label> GetLabelById(long id);
         Task<Label> CreateLabel(int ItemId, string LabelDesc);
-        Task DeleteLabel(long id);
+        Task<Label> DeleteLabel(long id);
     }
 }

@@ -21,7 +21,7 @@ namespace ToDoListAPI.Services
 
         public async Task<PagedList<ToDoItem>> GetAllTodoList(OwnerParameters op)
         {
-            return await Task.FromResult(PagedList<ToDoItem>.ToPagedList(_context.ToDoItem.Where(x => x.User.UserId == _userService.userId), op.PageNumber, op.PageSize));
+            return await (PagedList<ToDoItem>.ToPagedList(_context.ToDoItem.Where(x => x.User.UserId == _userService.userId), op.PageNumber, op.PageSize));
         }
 
         public async Task<IEnumerable<ToDoItem>> GetTodoListById(long id)
@@ -31,9 +31,9 @@ namespace ToDoListAPI.Services
 
         public async Task<PagedList<Label>> GetAllItemByLabelTag(OwnerParameters op)
         {
-            return await Task.FromResult(PagedList<Label>.ToPagedList(_context.Label.Where(x => x.ToDoItem.User.UserId == _userService.userId), op.PageNumber, op.PageSize));
+            return await (PagedList<Label>.ToPagedList(_context.Label.Where(x => x.ToDoItem.User.UserId == _userService.userId), op.PageNumber, op.PageSize));
         }
-        public async Task DeleteTodoItem(long id)
+        public async Task<ToDoItem> DeleteTodoItem(long id)
         {
             var todoItemToBeDeleted = await _context.ToDoItem.Where(x => x.ItemId == id).FirstOrDefaultAsync();
             if (todoItemToBeDeleted != null)
@@ -41,10 +41,11 @@ namespace ToDoListAPI.Services
                 _context.Remove(todoItemToBeDeleted);
                 await _context.SaveChangesAsync();
             }
+            return todoItemToBeDeleted;
         }
         async Task<PagedList<ToDoItem>> IToDoService.SearchTodoList(string filter, OwnerParameters op)
         {
-            return await Task.FromResult(PagedList<ToDoItem>.ToPagedList(_context.ToDoItem.Where(x => x.Description.Contains(filter) && x.User.UserId == _userService.userId), op.PageNumber, op.PageSize));
+            return await (PagedList<ToDoItem>.ToPagedList(_context.ToDoItem.Where(x => x.Description.Contains(filter) && x.User.UserId == _userService.userId), op.PageNumber, op.PageSize));
         }
 
         public async Task<ToDoItem> GetTodoItemById(long id)
@@ -54,7 +55,7 @@ namespace ToDoListAPI.Services
 
         public async Task<PagedList<ToDoItem>> SearchTodoItem(string filter, OwnerParameters op)
         {
-            return await Task.FromResult(PagedList<ToDoItem>.ToPagedList(_context.ToDoItem.Where(x => x.Description.Contains(filter) && x.User.UserId == _userService.userId), op.PageNumber, op.PageSize));
+            return await (PagedList<ToDoItem>.ToPagedList(_context.ToDoItem.Where(x => x.Description.Contains(filter) && x.User.UserId == _userService.userId), op.PageNumber, op.PageSize));
         }
 
         public async Task<ToDoItem> CreateTodoItem(string ItemDesc)
@@ -68,7 +69,7 @@ namespace ToDoListAPI.Services
             return newitem;
         }
 
-        public async Task UpdateTodoItem(long todoItemId, string ItemDesc)
+        public async Task<ToDoItem> UpdateTodoItem(long todoItemId, string ItemDesc)
         {
             var todoItem = await _context.ToDoItem.Where(x => x.ItemId == todoItemId).FirstOrDefaultAsync();
             if (todoItem != null)
@@ -77,6 +78,7 @@ namespace ToDoListAPI.Services
                 _context.Update(todoItem);
                 await _context.SaveChangesAsync();
             }
+            return todoItem;
         }
 
         public async Task<ToDoItem> PatchTodoItem(long id, JsonPatchDocument<ToDoItem> todoItem)
@@ -101,14 +103,15 @@ namespace ToDoListAPI.Services
             return newLabel;
         }
 
-        public async Task DeleteLabel(long id)
+        public async Task<Label> DeleteLabel(long id)
         {
-            var todoItemToBeDeleted = await _context.Label.Where(x => x.LabelId == id).FirstOrDefaultAsync();
-            if (todoItemToBeDeleted != null)
+            var label = await _context.Label.Where(x => x.LabelId == id).FirstOrDefaultAsync();
+            if (label != null)
             {
-                _context.Remove(todoItemToBeDeleted);
+                _context.Remove(label);
                 await _context.SaveChangesAsync();
             }
+            return label;
         }
     }
 }

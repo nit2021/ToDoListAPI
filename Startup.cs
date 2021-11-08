@@ -29,8 +29,14 @@ namespace ToDoListAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ToDoContext>(optionsAction =>
-            optionsAction.UseSqlServer(Configuration.GetConnectionString("ToDoContext")));
+            services.AddDbContextPool<ToDoContext>(optionsAction =>
+            optionsAction.UseSqlServer(Configuration.GetConnectionString("ToDoContext"),
+            sqlServerOptionsAction: sqlOptions=>
+            {
+                sqlOptions.CommandTimeout(20);
+                sqlOptions.EnableRetryOnFailure();
+            })
+            );
             //services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddControllers().AddNewtonsoftJson();
@@ -78,7 +84,7 @@ namespace ToDoListAPI
             services.AddScoped<IToDoService, ToDoService>();
             //services.AddScoped<Query>();
             //services.AddGraphQL(c=>SchemaBuilder.New().AddServices(c).AddType<ToDoItemType>().AddQueryType<Query>().Create());
-
+            services.AddGraphQLServer().AddQueryType<Query>().AddMutationType<Mutation>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -92,13 +98,13 @@ namespace ToDoListAPI
                 {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Test1 Api v1");
                 });
-                // app.UsePlayground(new PlaygroundOptions
-                // {
-                //     QueryPath = "/api",
-                //     Path = "/playground"
-                // });
+                app.UsePlayground(new PlaygroundOptions
+                {
+                    //QueryPath = "/api",
+                    Path = "/playground"
+                });
             }
-            //app.UseGraphQL("/api");
+            //app.UseGraphQL();
             app.UseHttpsRedirection();
             app.UseMiddleware<RequestResponseLoggingMiddleware>();
             app.UseRouting();
@@ -108,7 +114,7 @@ namespace ToDoListAPI
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                //endpoints.MapGraphQL();
+                endpoints.MapGraphQL();
             });
             
         }
