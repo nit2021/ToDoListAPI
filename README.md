@@ -56,18 +56,42 @@ C) Run command below in terminal to update database in SQL Express
 	"dotnet ef database update"
 
 
-Hosting Application
+Hosting Application  
 -------------------
 	
 7. Run command below to host application
 	
 	"dotnet run"
 	
+Using Swagger
+-------------
+	
 8. Go to https://localhost:5001/swagger/index.html 
 9. Click Authorize to with username and password. 
 10. Close credential pop up windows
-11. Execute respective endpoint after clicking Try it out.
+11. Execute respective endpoint after clicking Try it out then execute.
 
 You can set different application url in launchsetting.json in case you are already using some port or want to provide different port.
+	
+Using GraphQL
+-------------
+8. Go to https://localhost:5001/graphql/
+9. Add below Authorization to Http Headers for user "Admin"
 
-
+	{
+    		"Authorization": "Basic QWRtaW46UGEkJHcwcmQ="
+	}
+	
+10. Write quey or mutation commmand using schema in schema window for respective function. For example for item creation -
+	
+	mutation
+	{
+	  createitem(
+	    itemDesc:"itemgraphqlnew"
+	    )
+	    {
+	      itemId,
+	      description
+	    }
+	}
+11. Click on execute button and run the command. 
