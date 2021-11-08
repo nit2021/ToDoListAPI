@@ -67,8 +67,8 @@ Using Swagger
 -------------
 	
 8. Go to https://localhost:5001/swagger/index.html 
-9. Click Authorize to with username and password. 
-10. Close credential pop up windows
+9. Click Authorize button, fill username and password in popup window. 
+10. Click login then close credential pop up windows
 11. Execute respective endpoint after clicking Try it out then execute.
 
 You can set different application url in launchsetting.json in case you are already using some port or want to provide different port.
