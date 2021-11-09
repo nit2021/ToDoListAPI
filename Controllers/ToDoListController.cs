@@ -23,172 +23,133 @@ namespace ToDoListAPI.Controllers
         }
 
         /// <summary>
-        /// Method to get List of All TodoItems
+        /// Method to get List of All TodoList Items
         /// </summary>
         /// <param></param>
-        /// <returns>List of TodoItems</returns>
+        /// <returns>List of TodoList Items</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [SwaggerOperation(Summary = "Method to get List of All TodoItems")]
-        public async Task<ActionResult<IEnumerable<ToDoItem>>> GetTodoItemList([FromQuery] OwnerParameters options)
+        [SwaggerOperation(Summary = "Method to get List of All TodoList Items")]
+        public async Task<ActionResult<IEnumerable<ToDoList>>> GetTodoListItem([FromQuery] OwnerParameters options)
         {
-            var todoItems = await _todoItemService.GetAllTodoList(options);
-            if (todoItems == null)
+            var todoListItems = await _todoItemService.GetAllTodoList(options);
+            if (todoListItems == null)
             {
-                return NotFound(new { message = "TodoItem does not exists" });
+                return NotFound(new { message = "TodoList Item does not exists" });
             }
-            return Ok(todoItems);
+            return Ok(todoListItems);
 
         }
 
         /// <summary>
-        /// Method to get TodoItem based on given ID
+        /// Method to get TodoList Item based on given ID
         /// </summary>
-        /// <param name="id">Id of TodoItem</param>
-        /// <returns>TodoItem</returns>
+        /// <param name="id">Id of TodoList Item</param>
+        /// <returns>TodoList Item</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [SwaggerOperation(Summary = "Method to get TodoItem based on given ID")]
-        public async Task<ActionResult<ToDoItem>> GetTodoItem([FromQuery] long id)
+        [SwaggerOperation(Summary = "Method to get TodoList Item based on given ID")]
+        public async Task<ActionResult<ToDoList>> GetTodoListItem([FromQuery] long id)
         {
-            var todoItem = await _todoItemService.GetTodoItemById(id);
+            var todoListItem = await _todoItemService.GetTodoListById(id);
 
-            if (todoItem == null)
+            if (todoListItem == null)
             {
-                return NotFound(new { message = "Todo Item does not exists" });
+                return NotFound(new { message = "TodoList Item does not exists" });
             }
-            return Ok(todoItem);
+            return Ok(todoListItem);
         }
 
         /// <summary>
-        /// Method to search TodoItem based on Search Filter
+        /// Method to search TodoList Item based on Search Filter
         /// </summary>
-        /// <param name="filter">Item description</param>
-        /// <returns>TodoItem</returns>
+        /// <param name="filter">ToDoList Item description</param>
+        /// <returns>TodoList Item</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ToDoItem), (int)HttpStatusCode.OK)]
-        [SwaggerOperation(Summary = "Method to search TodoItem based on Search Filter")]
-        [Route("SearchToDoItem")]
-        public async Task<ActionResult<ToDoItem>> SearchTodoItem([FromQuery] string filter, [FromQuery] OwnerParameters op)
+        [ProducesResponseType(typeof(ToDoList), (int)HttpStatusCode.OK)]
+        [SwaggerOperation(Summary = "Method to search TodoList Item based on Search Filter")]
+        [Route("SearchToDoListItem")]
+        public async Task<ActionResult<ToDoList>> SearchTodoListItem([FromQuery] string filter, [FromQuery] OwnerParameters op)
         {
-            var result = await _todoItemService.SearchTodoItem(filter, op);
+            var result = await _todoItemService.SearchTodoList(filter, op);
             return Ok(result);
         }
 
 
         /// <summary>
-        /// Method to Update TodoItem based on given ID
+        /// Method to Update TodoList Item based on given ID
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="todoItem"></param>
+        /// <param name="todoListDescription"></param>
         /// <returns></returns>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [SwaggerOperation(Summary = "Method to Update TodoItem based on given ID")]
-        public async Task<IActionResult> PutTodoItem([FromQuery] long id, [FromQuery] string ItemDesc)
+        [SwaggerOperation(Summary = "Method to Update TodoList Item based on given ID")]
+        public async Task<IActionResult> PutTodoListItem([FromQuery] long id, [FromQuery] string ItemDesc)
         {
             if (ItemDesc == null || id == 0)
             {
                 return BadRequest();
             }
 
-            await _todoItemService.UpdateTodoItem(id, ItemDesc);
+            await _todoItemService.UpdateTodoList(id, ItemDesc);
             return NoContent();
         }
 
         // <summary>
-        /// Method to Patch TodoItem based on given ID
+        /// Method to Patch TodoList Item based on given ID
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="todoItem"></param>
-        // [{
-        // "path": "Description",
-        // "op": "replace",
-        // "value": "newitempatch2"
-        // }]
+        /// <param name="todoListItem"></param>
         /// <returns></returns>
         [HttpPatch]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
-        [SwaggerOperation(Summary = "Method to Patch TodoItem based on given ID")]
-        [Route("PatchToDoItem")]
-        public async Task<IActionResult> JsonPatchTodoItem(long id, [FromBody] JsonPatchDocument<ToDoItem> todoItem)
+        [SwaggerOperation(Summary = "Method to Patch TodoList Item based on given ID")]
+        [Route("PatchToDoListItem")]
+        public async Task<IActionResult> JsonPatchTodoListItem(long id, [FromBody] JsonPatchDocument<ToDoList> todoListItem)
         {
-            var item = await _todoItemService.PatchTodoItem(id, todoItem);
+            var item = await _todoItemService.PatchTodoList(id, todoListItem);
             if (item == null)
                 return BadRequest();
             else
                 return Ok();
         }
         /// <summary>
-        /// Method to create a TodoItem
+        /// Method to create a TodoList Item
         /// </summary>
         /// <param name="ItemDesc"></param>
-        /// <returns>TodoItem</returns>
-        [HttpPost("PostTodoItem")]
-        //[Consumes(MediaTypeNames.Application.Json)]
+        /// <returns>TodoListItem</returns>
+        [HttpPost("PostTodoListItem")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [SwaggerOperation(Summary = "Method to create a TodoItem")]
-        public async Task<ActionResult<ToDoItem>> PostTodoItem([FromQuery] string ItemDesc)
+        [SwaggerOperation(Summary = "Method to create a TodoList Item")]
+        public async Task<ActionResult<ToDoList>> PostTodoListItem([FromQuery] string ItemDesc)
         {
             if (ItemDesc == null)
-                return BadRequest(new { message = "TodoItem Description mandatory" });
+                return BadRequest(new { message = "TodoList Item Description mandatory" });
 
-            ToDoItem item = await _todoItemService.CreateTodoItem(ItemDesc);
+            ToDoList item = await _todoItemService.CreateToDoList(ItemDesc);
             return item;
         }
 
         /// <summary>
-        /// Method to create a Label
-        /// </summary>
-        /// <param name="ItemDesc"></param>
-        /// <param name="LabelDesc"></param>
-        /// <returns>Label</returns>
-        [HttpPost("PostLabel")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [SwaggerOperation(Summary = "Method to create a Label")]
-        public async Task<ActionResult<Label>> PostLabel([FromQuery] int ItemId, [FromQuery] string LabelDesc)
-        {
-            if (LabelDesc == null || ItemId == 0)
-                return BadRequest(new { message = "TodoItem Description mandatory" });
-
-            Label item = await _todoItemService.CreateLabel(ItemId, LabelDesc);
-            return item;
-        }
-
-        /// <summary>
-        /// Method to delete TodoItem of given ID
+        /// Method to delete TodoList Item of given ID
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpDelete("DeleteTodoItem")]
+        [HttpDelete("DeleteTodoListItem")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [SwaggerOperation(Summary = "Method to delete TodoItem of given ID")]
-        public async Task<IActionResult> DeleteTodoItem([FromQuery] long id)
+        [SwaggerOperation(Summary = "Method to delete TodoList Item of given ID")]
+        public async Task<IActionResult> DeleteTodoListItem([FromQuery] long id)
         {
-            await _todoItemService.DeleteTodoItem(id);
-            return NoContent();
-        }
-
-        /// <summary>
-        /// Method to delete Label of given ID
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpDelete("DeleteLabel")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [SwaggerOperation(Summary = "Method to delete Label of given ID")]
-        public async Task<IActionResult> DeleteLabel([FromQuery] long id)
-        {
-            await _todoItemService.DeleteLabel(id);
+            await _todoItemService.DeleteTodoList(id);
             return NoContent();
         }
     }
