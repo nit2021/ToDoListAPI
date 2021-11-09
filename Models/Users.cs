@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
@@ -5,7 +6,7 @@ using System.Runtime.Serialization;
 namespace ToDoListAPI.Models
 {
     [DataContract]
-    public class User
+    public class Users
     {
 
         /// <summary>
@@ -16,17 +17,11 @@ namespace ToDoListAPI.Models
         [DataMember]
         public int UserId { get; set; }
 
-        /// <summary>
-        /// Optional.
-        /// </summary>
         [Required]
         [MaxLength(50)]
         [DataMember]
         public string UserName { get; set; }
 
-        /// <summary>
-        /// Optional.
-        /// </summary>
         [Required]
         [MaxLength(50)]
         public string Password { get; set; }

@@ -7,25 +7,19 @@ namespace ToDoListAPI.Models
     public partial class Label
     {
 
-        /// <summary>
-        /// Identity
-        /// </summary>
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [DataMember]
         public int LabelId { get; set; }
 
-
-        /// <summary>
-        /// Note.
-        /// </summary>
         [Required]
         [MaxLength(50)]
         [DataMember]
         public string Description { get; set; }
 
-        [ForeignKey("ItemID")]
+        [ForeignKey("ToDoItem")]
         [Required]
+        public int ItemOwner { get; set; }
         public ToDoItem ToDoItem { get; set; }
 
     }

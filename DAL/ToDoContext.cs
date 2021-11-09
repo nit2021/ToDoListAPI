@@ -6,21 +6,15 @@ namespace ToDoListAPI.DAL
     {
         public ToDoContext(DbContextOptions<ToDoContext> options) : base(options)
         {
-            //    Database.Migrate();
         }
-        public DbSet<User> User { get; set; }
-        public DbSet<ToDoItem> ToDoItem { get; set; }
-        public DbSet<Label> Label { get; set; }
+        public DbSet<Users> Users { get; set; }
+        public DbSet<ToDoList> ToDoLists { get; set; }
+        public DbSet<ToDoItem> ToDoItems { get; set; }
+        public DbSet<Label> Labels { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().HasData(new User { UserId = 101, UserName = "Admin", Password = "Pa$$w0rd" });
+            modelBuilder.Seed();
         }
-        // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)  
-        // {  
-        //     optionsBuilder.UseSqlServer("connectionstring");  
-        //     base.OnConfiguring(optionsBuilder);  
-        // }
-
     }
 }
