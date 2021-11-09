@@ -53,8 +53,6 @@ namespace ToDoListAPI.Controllers
         [SwaggerOperation(Summary = "Get TodoItem based on given ID")]
         public async Task<ActionResult<ToDoItem>> GetTodoItem(int id)
         {
-            //var so=HttpContext.Request.Query["id"];
-            //int jk=Convert.ToInt32(.ToString());
             var todoItem = await _todoItemService.GetTodoItemById(id);
 
             if (todoItem == null)
@@ -107,18 +105,12 @@ namespace ToDoListAPI.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <param name="todoItem"></param>
-        // [{
-        // "path": "Description",
-        // "op": "replace",
-        // "value": "newitempatch2"
-        // }]
         /// <returns></returns>
         [HttpPatch("{id:long}")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
         [SwaggerOperation(Summary = "Patch TodoItem based on given ID")]
-        //[Route("PatchToDoItem")]
         public async Task<IActionResult> JsonPatchTodoItem(long id, [FromBody] JsonPatchDocument<ToDoItem> todoItem)
         {
             var item = await _todoItemService.PatchTodoItem(id, todoItem);
@@ -134,7 +126,6 @@ namespace ToDoListAPI.Controllers
         /// <param name="ItemDesc"></param>
         /// <returns>TodoItem</returns>
         [HttpPost("PostTodoItem")]
-        //[Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [SwaggerOperation(Summary = "Create a TodoItem")]

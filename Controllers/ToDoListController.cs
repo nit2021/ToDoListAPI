@@ -112,7 +112,6 @@ namespace ToDoListAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
         [SwaggerOperation(Summary = "Method to Patch TodoList Item based on given ID")]
-       // [Route("PatchToDoListItem")]
         public async Task<IActionResult> JsonPatchTodoListItem(long id, [FromBody] JsonPatchDocument<ToDoList> todoListItem)
         {
             var item = await _todoItemService.PatchTodoList(id, todoListItem);
