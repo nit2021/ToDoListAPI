@@ -17,7 +17,7 @@ namespace ToDoListAPI.Services
             _context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 
             //var count = (from x in _context.User where x.UserName == username && x.Password == password select x).Count();
-            var user = _context.User.Where(x => x.UserName == username && x.Password == password).FirstOrDefault();
+            var user = _context.Users.Where(x => x.UserName == username && x.Password == password).FirstOrDefault();
             if (user == null)
                 return false;
             else
