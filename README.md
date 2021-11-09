@@ -45,9 +45,9 @@ The above command will create database with one default username:"Admin" and Pas
 Optional - "To Add more users"
 ------------------------------
 
-A) You can add more user by visiting ToDoContext.cs file then in OnModelCreating method add below line and save.
+A) You can add more user/tables data by visiting ModelBuilderExtensions.cs file then in Seed method you can add seeding entity data to respective class. For example, for seeding user record you can add below line
 
-modelBuilder.Entity<User>().HasData(new User { UserId = {101}, UserName = "{Username}", Password = "{userpassword});
+modelBuilder.Entity<User>().HasData(new User { UserId = {102}, UserName = "{Username}", Password = "{userpassword});
  
 
 B) Add new migration name to below command and run command in terminal
