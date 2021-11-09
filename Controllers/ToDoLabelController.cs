@@ -14,10 +14,10 @@ namespace ToDoListAPI.Controllers
     [Authorize]
     [ApiController]
     [Route("[controller]")]
-    public class LabelController : ControllerBase
+    public class ToDoLabelController : ControllerBase
     {
         private readonly IToDoService _todoItemService;
-        public LabelController(IToDoService todoItemService)
+        public ToDoLabelController(IToDoService todoItemService)
         {
             _todoItemService = todoItemService;
         }
@@ -28,10 +28,10 @@ namespace ToDoListAPI.Controllers
         /// <param name="ItemDesc"></param>
         /// <param name="LabelDesc"></param>
         /// <returns>Label</returns>
-        [HttpPost("PostLabel")]
+        [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [SwaggerOperation(Summary = "Method to create a Label")]
+        [SwaggerOperation(Summary = "Creates a Label for a given Item Id")]
         public async Task<ActionResult<Label>> PostLabel([FromQuery] int ItemId, [FromQuery] string LabelDesc)
         {
             if (LabelDesc == null || ItemId == 0)
@@ -49,7 +49,7 @@ namespace ToDoListAPI.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [SwaggerOperation(Summary = "Method to get List of All Label")]
+        [SwaggerOperation(Summary = "Get List of All Label")]
         public async Task<ActionResult<IEnumerable<ToDoItem>>> GetTodoLabel([FromQuery] OwnerParameters options)
         {
             var todoItems = await _todoItemService.GetAllLabel(options);
@@ -65,10 +65,10 @@ namespace ToDoListAPI.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpDelete("DeleteLabel")]
+        [HttpDelete("{id:long}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [SwaggerOperation(Summary = "Method to delete Label of given ID")]
-        public async Task<IActionResult> DeleteLabel([FromQuery] long id)
+        [SwaggerOperation(Summary = "Delete Label of given ID")]
+        public async Task<IActionResult> DeleteLabel(long id)
         {
             await _todoItemService.DeleteLabel(id);
             return NoContent();

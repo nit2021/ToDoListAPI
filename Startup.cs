@@ -37,7 +37,6 @@ namespace ToDoListAPI
                 sqlOptions.EnableRetryOnFailure();
             })
             );
-            //services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddControllers().AddNewtonsoftJson();
 
@@ -91,16 +90,16 @@ namespace ToDoListAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Test1 Api v1");
-                });
-                app.UsePlayground(new PlaygroundOptions
-                {
-                    Path = "/playground"
-                });
             }
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "ToDoList Api v1");
+            });
+            app.UsePlayground(new PlaygroundOptions
+            {
+                Path = "/playground"
+            });
             app.UseHttpsRedirection();
             app.UseMiddleware<RequestResponseLoggingMiddleware>();
             app.UseRouting();
