@@ -15,36 +15,12 @@ namespace ToDoListAPI.GraphQL
         public Query(IToDoService toDoService)
         {
             _toDoService = toDoService;
+        
         }
-
-        //<QueryCommand>
-        // query{
-        // getToDoItems(op:{pageNumber:1,pageSize:5})
-        // {
-        //     description
-        // }
-        // }
-        // </QueryCommand>
-        public Task<PagedList<ToDoItem>> getToDoItems(OwnerParameters op) => _toDoService.GetAllTodoList(op);
-
-        // <QueryCommand>
-        // query{
-        // searchToDoItems(itemDesc:"item",op:{pageNumber:1,pageSize:10})
-        // {
-        //     description
-        // }
-        // }
-        // </QueryCommand>
-        public Task<PagedList<ToDoItem>> searchToDoItems(string itemDesc,OwnerParameters op) => _toDoService.SearchTodoList(itemDesc, op);
-
-        //<QueryCommand>
-        // query{
-        // getToDoLabels(op:{pageNumber:1,pageSize:5})
-        // {
-        //     description
-        // }
-        // }
-        // </QueryCommand>
-        public Task<PagedList<Label>> getToDoLabels(OwnerParameters op) => _toDoService.GetAllItemByLabelTag(op);
+        public Task<PagedList<ToDoList>> getToDoListItems(OwnerParameters op) => _toDoService.GetAllTodoList(op);
+        public Task<PagedList<ToDoList>> searchToDoListItems(string itemDesc,OwnerParameters op) => _toDoService.SearchTodoList(itemDesc, op);
+         public Task<PagedList<ToDoItem>> getToDoItems(OwnerParameters op) => _toDoService.GetAllTodoItem(op);
+        public Task<PagedList<ToDoItem>> searchToDoItems(string itemDesc,OwnerParameters op) => _toDoService.SearchTodoItem(itemDesc, op);
+        public Task<PagedList<Label>> getToDoLabels(OwnerParameters op) => _toDoService.GetAllLabel(op);
     }
 }

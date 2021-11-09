@@ -47,8 +47,8 @@ namespace ToDoListAPI
                 options.SwaggerDoc("v1",
                 new Microsoft.OpenApi.Models.OpenApiInfo
                 {
-                    Title = "ToDoList Demo API",
-                    Description = "Demo for showing swagger",
+                    Title = "ToDoList API",
+                    Description = "ToDoList operation using swagger",
                     Version = "v1"
                 });
                 options.EnableAnnotations();
@@ -82,8 +82,6 @@ namespace ToDoListAPI
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IToDoService, ToDoService>();
-            //services.AddScoped<Query>();
-            //services.AddGraphQL(c=>SchemaBuilder.New().AddServices(c).AddType<ToDoItemType>().AddQueryType<Query>().Create());
             services.AddGraphQLServer().AddQueryType<Query>().AddMutationType<Mutation>();
         }
 
@@ -100,11 +98,9 @@ namespace ToDoListAPI
                 });
                 app.UsePlayground(new PlaygroundOptions
                 {
-                    //QueryPath = "/api",
                     Path = "/playground"
                 });
             }
-            //app.UseGraphQL();
             app.UseHttpsRedirection();
             app.UseMiddleware<RequestResponseLoggingMiddleware>();
             app.UseRouting();
