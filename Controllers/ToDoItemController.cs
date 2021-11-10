@@ -30,7 +30,9 @@ namespace ToDoListAPI.Controllers
         /// <returns>List of TodoItems</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(Summary = "Get List of All TodoItems")]
         public async Task<ActionResult<IEnumerable<ToDoItem>>> GetTodoItemList([FromQuery] OwnerParameters options)
         {
@@ -49,7 +51,9 @@ namespace ToDoListAPI.Controllers
         /// <returns>TodoItem</returns>
         [HttpGet("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(Summary = "Get TodoItem based on given ID")]
         public async Task<ActionResult<ToDoItem>> GetTodoItem(int id)
         {
@@ -69,7 +73,9 @@ namespace ToDoListAPI.Controllers
         /// <returns>TodoItem</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(ToDoItem), (int)HttpStatusCode.OK)]
         [SwaggerOperation(Summary = "Search TodoItem based on Search Filter")]
         [Route("SearchToDoItem")]
@@ -88,6 +94,8 @@ namespace ToDoListAPI.Controllers
         [HttpPut("{id:long}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(Summary = "Update TodoItem based on given ID")]
         public async Task<IActionResult> PutTodoItem(long id, [FromQuery] string ItemDesc)
         {
@@ -109,6 +117,7 @@ namespace ToDoListAPI.Controllers
         [HttpPatch("{id:long}")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
         [SwaggerOperation(Summary = "Patch TodoItem based on given ID")]
         public async Task<IActionResult> JsonPatchTodoItem(long id, [FromBody] JsonPatchDocument<ToDoItem> todoItem)
@@ -128,6 +137,8 @@ namespace ToDoListAPI.Controllers
         [HttpPost("PostTodoItem")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(Summary = "Create a TodoItem")]
         public async Task<ActionResult<ToDoItem>> PostTodoItem([FromQuery] int taskId, [FromQuery] string ItemDesc)
         {
@@ -145,6 +156,8 @@ namespace ToDoListAPI.Controllers
         /// <returns></returns>
         [HttpDelete("{id:int}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(Summary = "Delete TodoItem for given ID")]
         public async Task<IActionResult> DeleteTodoItem(long id)
         {

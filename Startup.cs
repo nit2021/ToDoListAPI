@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using ToDoListAPI.DAL;
 using ToDoListAPI.GraphQL;
+using ToDoListAPI.Middleware;
 using ToDoListAPI.Models;
 using ToDoListAPI.Services;
 
@@ -31,7 +32,7 @@ namespace ToDoListAPI
         {
             services.AddDbContextPool<ToDoContext>(optionsAction =>
             optionsAction.UseSqlServer(Configuration.GetConnectionString("ToDoContext"),
-            sqlServerOptionsAction: sqlOptions=>
+            sqlServerOptionsAction: sqlOptions =>
             {
                 sqlOptions.CommandTimeout(20);
                 sqlOptions.EnableRetryOnFailure();
@@ -87,10 +88,7 @@ namespace ToDoListAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            app.UseMiddleware<ExceptionMiddleware>();
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
@@ -111,7 +109,7 @@ namespace ToDoListAPI
                 endpoints.MapControllers();
                 endpoints.MapGraphQL();
             });
-            
+
         }
     }
 }

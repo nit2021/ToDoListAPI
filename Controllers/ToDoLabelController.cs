@@ -31,6 +31,8 @@ namespace ToDoListAPI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(Summary = "Creates a Label for a given Item Id")]
         public async Task<ActionResult<Label>> PostLabel([FromQuery] int ItemId, [FromQuery] string LabelDesc)
         {
@@ -48,7 +50,9 @@ namespace ToDoListAPI.Controllers
         /// <returns>List of Label</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(Summary = "Get List of All Label")]
         public async Task<ActionResult<IEnumerable<ToDoItem>>> GetTodoLabel([FromQuery] OwnerParameters options)
         {
@@ -67,6 +71,8 @@ namespace ToDoListAPI.Controllers
         /// <returns></returns>
         [HttpDelete("{id:long}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(Summary = "Delete Label of given ID")]
         public async Task<IActionResult> DeleteLabel(long id)
         {
