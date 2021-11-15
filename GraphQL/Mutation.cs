@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using ToDoListAPI.Models;
+using ToDoAPI.Core.Models;
 using ToDoListAPI.Services;
 
 namespace ToDoListAPI.GraphQL

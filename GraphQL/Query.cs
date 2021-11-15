@@ -1,9 +1,5 @@
-using System.Linq;
-using ToDoListAPI.DAL;
-using HotChocolate.Data;
 using ToDoListAPI.Services;
-using System.Collections.Generic;
-using ToDoListAPI.Models;
+using ToDoAPI.Core.Models;
 using System.Threading.Tasks;
 
 namespace ToDoListAPI.GraphQL

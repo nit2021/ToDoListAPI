@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.JsonPatch;
-using ToDoListAPI.Models;
+using ToDoAPI.Core.Models;
 
 namespace ToDoListAPI.Services
 {

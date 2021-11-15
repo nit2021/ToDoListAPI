@@ -1,12 +1,10 @@
 using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using ToDoListAPI.Models;
+using ToDoAPI.Core.Models;
 using ToDoListAPI.Services;
 
 namespace ToDoListAPI.Controllers
@@ -54,14 +52,14 @@ namespace ToDoListAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(Summary = "Get List of All Label")]
-        public async Task<ActionResult<IEnumerable<ToDoItem>>> GetTodoLabel([FromQuery] OwnerParameters options)
+        public async Task<ActionResult<IEnumerable<Label>>> GetTodoLabel([FromQuery] OwnerParameters options)
         {
-            var todoItems = await _todoItemService.GetAllLabel(options);
-            if (todoItems == null)
+            var todoLabels = await _todoItemService.GetAllLabel(options);
+            if (todoLabels == null)
             {
                 return NotFound(new { message = "TodoItem does not exists" });
             }
-            return Ok(todoItems);
+            return Ok(todoLabels);
         }
 
         /// <summary>

@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using ToDoListAPI.DAL;
-using ToDoListAPI.Models;
+using ToDoAPI.DAL;
+using ToDoAPI.Core.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using System;
 

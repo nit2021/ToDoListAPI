@@ -10,10 +10,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using ToDoListAPI.DAL;
+using ToDoAPI.DAL;
 using ToDoListAPI.GraphQL;
 using ToDoListAPI.Middleware;
-using ToDoListAPI.Models;
+using ToDoAPI.Core.Models;
 using ToDoListAPI.Services;
 
 namespace ToDoListAPI

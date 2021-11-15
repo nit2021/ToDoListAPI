@@ -1,5 +1,5 @@
 using HotChocolate.Types;
-using ToDoListAPI.Models;
+using ToDoAPI.Core.Models;
 
 namespace ToDoListAPI.GraphQL
 {

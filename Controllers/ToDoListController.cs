@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using ToDoListAPI.Models;
+using ToDoAPI.Core.Models;
 using ToDoListAPI.Services;
 
 namespace ToDoListAPI.Controllers
@@ -96,6 +96,7 @@ namespace ToDoListAPI.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(Summary = "Update TodoList Item based on given ID")]
         public async Task<IActionResult> PutTodoListItem(long id, [FromQuery] string ItemDesc)
@@ -105,8 +106,8 @@ namespace ToDoListAPI.Controllers
                 return BadRequest();
             }
 
-            await _todoItemService.UpdateTodoList(id, ItemDesc);
-            return NoContent();
+            var result = await _todoItemService.UpdateTodoList(id, ItemDesc);
+            if (result == null) return NotFound(); else return NoContent();
         }
 
         // <summary>
