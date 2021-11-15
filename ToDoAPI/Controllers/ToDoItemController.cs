@@ -81,7 +81,10 @@ namespace ToDoListAPI.ToDoAPI.Controllers
         public async Task<ActionResult<ToDoItem>> SearchTodoItem([FromQuery] string filter, [FromQuery] OwnerParameters op)
         {
             var result = await _todoItemService.SearchTodoItem(filter, op);
-            return Ok(result);
+            if (result == null)
+                return NotFound();
+            else
+                return Ok(result);
         }
 
         /// <summary>
@@ -134,7 +137,7 @@ namespace ToDoListAPI.ToDoAPI.Controllers
         /// <param name="ItemDesc"></param>
         /// <returns>TodoItem</returns>
         [HttpPost("PostTodoItem")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -145,7 +148,7 @@ namespace ToDoListAPI.ToDoAPI.Controllers
                 return BadRequest(new { message = "TodoItem Description mandatory" });
 
             ToDoItem item = await _todoItemService.CreateTodoItem(taskId, ItemDesc);
-            return item;
+            return Ok(item);
         }
 
         /// <summary>
