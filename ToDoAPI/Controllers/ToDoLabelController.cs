@@ -38,7 +38,7 @@ namespace ToDoListAPI.ToDoAPI.Controllers
                 return BadRequest(new { message = "TodoItem Description mandatory" });
 
             Label item = await _todoItemService.CreateLabel(ItemId, LabelDesc);
-            return item;
+            return Ok(item);
         }
 
         /// <summary>
