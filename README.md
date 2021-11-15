@@ -27,15 +27,19 @@ https://github.com/nit2021/ToDoListAPI.git
 
 DB Setup
 --------
-5. Run command below in terminal to add ef
+5. Run below command interminal to set path
+
+	"cd .\ToDoAPI"
+	
+6. Run below below in terminal to add ef
 	
 	"dotnet tool install --global dotnet-ef"
 
-6. Run command below in terminal to create migration
+7. Run command below in terminal to create migration
 	
-	"dotnet ef migrations add Initial --context ToDoContext"
+	"dotnet ef --startup-project ./ToDoAPI.csproj migrations add InitialMigration --context ToDoContext --output-dir Migrations --project ../ToDoDAL/ToDoDAL.csproj"
 	
-7. Run command below in terminal to create database in SQL Express
+8. Run command below in terminal to create database in SQL Express
 	
 	"dotnet ef database update"
 
@@ -52,7 +56,7 @@ modelBuilder.Entity<User>().HasData(new User { UserId = {102}, UserName = "{User
 
 B) Add new migration name to below command and run command in terminal
 	
-	"dotnet ef migrations add New_Migration_Name --context ToDoContext"
+	"dotnet ef --startup-project ./ToDoAPI.csproj migrations add New_Migration_Name --context ToDoContext --output-dir Migrations --project ../ToDoDAL/ToDoDAL.csproj"
 	
 
 C) Run command below in terminal to update database in SQL Express
@@ -63,30 +67,30 @@ C) Run command below in terminal to update database in SQL Express
 Hosting Application  
 -------------------
 	
-8. Run command below to host application
+9. Run command below to host application
 	
 	"dotnet run"
 	
 Using Swagger
 -------------
 	
-9. Go to https://localhost:5001/swagger/index.html 
-10. Click Authorize button, fill username and password in popup window. 
-11. Click login then close credential pop up windows
-12. Execute respective endpoint after clicking Try it out then execute.
+10. Go to https://localhost:5001/swagger/index.html 
+11. Click Authorize button, fill username and password in popup window. 
+12. Click login then close credential pop up windows
+13. Execute respective endpoint after clicking Try it out then execute.
 
 You can set different application url in launchsetting.json in case you are already using some port or want to provide different port.
 	
 Using GraphQL
 -------------
-9. Go to https://localhost:5001/graphql/
-10. Add below Authorization to Http Headers for user "Admin"
+10. Go to https://localhost:5001/graphql/
+11. Add below Authorization to Http Headers for user "Admin"
 
 	{
     		"Authorization": "Basic QWRtaW46UGEkJHcwcmQ="
 	}
 	
-11. Write quey or mutation command using schema in schema window for respective function. For example for item creation -
+12. Write quey or mutation command using schema in schema window for respective function. For example for item creation -
 	
 	mutation
 	{
@@ -98,4 +102,4 @@ Using GraphQL
 	      description
 	    }
 	}
-12. Click on execute button and run the command. 
+13. Click on execute button and run the command. 
