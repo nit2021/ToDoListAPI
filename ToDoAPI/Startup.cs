@@ -8,12 +8,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using ToDoAPI.DAL;
 using ToDoListAPI.ToDoAPI.GraphQL;
 using ToDoListAPI.ToDoAPI.Middleware;
-using ToDoAPI.Core.Models;
 using ToDoListAPI.ToDoAPI.Services;
 
 namespace ToDoListAPI.ToDoAPI

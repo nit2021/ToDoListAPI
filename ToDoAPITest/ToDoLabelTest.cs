@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ToDoListAPI.ToDoAPI;
 using ToDoListAPI.ToDoAPI.Controllers;
 using ToDoAPI.Core.Models;
 using ToDoAPI.MockService.Test;
