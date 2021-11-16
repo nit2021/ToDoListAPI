@@ -83,12 +83,13 @@ namespace ToDoAPI.Test
         [TestMethod]
         public void CreateLabel_Returns_NewLabelData()
         {
-            var response = (labelController.PostLabel(11, "newlabel").Result);
+            var response = (labelController.PostLabel(11, "newlabel").Result.Result) as ObjectResult;
             var newLabel = ((Label)(response.Value));
 
             Assert.AreNotEqual(newLabel.LabelId, 0);
             Assert.AreEqual(newLabel.ItemOwner, 11);
             Assert.AreEqual(newLabel.Description, "newlabel");
+            Assert.AreEqual((int)HttpStatusCode.OK, (response as ObjectResult).StatusCode);
         }
 
         [TestMethod]
