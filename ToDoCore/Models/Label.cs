@@ -20,6 +20,10 @@ namespace ToDoAPI.Core.Models
         [ForeignKey("ToDoItem")]
         [Required]
         public int ItemOwner { get; set; }
+
+        [ForeignKey("ToDoList")]
+        [Required]
+        public int ToDoListID { get; set; }
         public ToDoItem ToDoItem { get; set; }
 
     }

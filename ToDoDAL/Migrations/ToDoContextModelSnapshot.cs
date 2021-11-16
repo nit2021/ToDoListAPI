@@ -34,6 +34,9 @@ namespace ToDoDAL.Migrations
                     b.Property<int>("ItemOwner")
                         .HasColumnType("int");
 
+                    b.Property<int>("ToDoListID")
+                        .HasColumnType("int");
+
                     b.HasKey("LabelId");
 
                     b.HasIndex("ItemOwner");
@@ -45,7 +48,8 @@ namespace ToDoDAL.Migrations
                         {
                             LabelId = 401,
                             Description = "Label1",
-                            ItemOwner = 301
+                            ItemOwner = 301,
+                            ToDoListID = 201
                         });
                 });
 
@@ -80,7 +84,7 @@ namespace ToDoDAL.Migrations
                         new
                         {
                             ItemId = 301,
-                            CreatedDate = new DateTime(2021, 11, 15, 6, 14, 10, 115, DateTimeKind.Utc).AddTicks(8938),
+                            CreatedDate = new DateTime(2021, 11, 16, 15, 49, 58, 359, DateTimeKind.Utc).AddTicks(9309),
                             Description = "Item1",
                             TaskOwner = 201
                         });
@@ -117,7 +121,7 @@ namespace ToDoDAL.Migrations
                         new
                         {
                             ListId = 201,
-                            CreatedDate = new DateTime(2021, 11, 15, 6, 14, 10, 115, DateTimeKind.Utc).AddTicks(8117),
+                            CreatedDate = new DateTime(2021, 11, 16, 15, 49, 58, 359, DateTimeKind.Utc).AddTicks(8472),
                             Description = "ListItem1",
                             Owner = 101
                         });
@@ -150,6 +154,12 @@ namespace ToDoDAL.Migrations
                             UserId = 101,
                             Password = "Pa$$w0rd",
                             UserName = "Admin"
+                        },
+                        new
+                        {
+                            UserId = 102,
+                            Password = "Pa$$w0rd",
+                            UserName = "Standard"
                         });
                 });
 

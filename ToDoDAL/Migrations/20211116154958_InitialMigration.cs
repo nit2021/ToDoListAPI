@@ -72,7 +72,8 @@ namespace ToDoDAL.Migrations
                     LabelId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(maxLength: 50, nullable: false),
-                    ItemOwner = table.Column<int>(nullable: false)
+                    ItemOwner = table.Column<int>(nullable: false),
+                    ToDoListID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -91,19 +92,24 @@ namespace ToDoDAL.Migrations
                 values: new object[] { 101, "Pa$$w0rd", "Admin" });
 
             migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "UserId", "Password", "UserName" },
+                values: new object[] { 102, "Pa$$w0rd", "Standard" });
+
+            migrationBuilder.InsertData(
                 table: "ToDoLists",
                 columns: new[] { "ListId", "CreatedDate", "Description", "Owner", "UpdatedDate" },
-                values: new object[] { 201, new DateTime(2021, 11, 15, 6, 14, 10, 115, DateTimeKind.Utc).AddTicks(8117), "ListItem1", 101, null });
+                values: new object[] { 201, new DateTime(2021, 11, 16, 15, 49, 58, 359, DateTimeKind.Utc).AddTicks(8472), "ListItem1", 101, null });
 
             migrationBuilder.InsertData(
                 table: "ToDoItems",
                 columns: new[] { "ItemId", "CreatedDate", "Description", "TaskOwner", "UpdatedDate" },
-                values: new object[] { 301, new DateTime(2021, 11, 15, 6, 14, 10, 115, DateTimeKind.Utc).AddTicks(8938), "Item1", 201, null });
+                values: new object[] { 301, new DateTime(2021, 11, 16, 15, 49, 58, 359, DateTimeKind.Utc).AddTicks(9309), "Item1", 201, null });
 
             migrationBuilder.InsertData(
                 table: "Labels",
-                columns: new[] { "LabelId", "Description", "ItemOwner" },
-                values: new object[] { 401, "Label1", 301 });
+                columns: new[] { "LabelId", "Description", "ItemOwner", "ToDoListID" },
+                values: new object[] { 401, "Label1", 301, 201 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Labels_ItemOwner",
