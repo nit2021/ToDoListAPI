@@ -43,7 +43,7 @@ DB Setup
 	
 	"dotnet ef database update"
 
-The above command will create database with one default username:"Admin" and PassWord="PaSSw0rd" in it.
+The above command will create database with one default username:"Admin" and PassWord="Pa$$w0rd" in it.
 
 
 Optional - "To Add more users/tables data"
@@ -94,12 +94,12 @@ Using GraphQL
 	
 	mutation
 	{
-	  createitem(
+	  createListItem(
 	    itemDesc:"itemgraphqlnew"
 	    )
 	    {
-	      itemId,
-	      description
+		    description,
+		    createdDate
 	    }
 	}
 13. Click on execute button and run the command. 
