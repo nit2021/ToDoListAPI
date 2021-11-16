@@ -113,7 +113,7 @@ namespace ToDoAPI.Test
         }
 
         [TestMethod]
-        public void CreateToDoItem_Returns_NewToDoItemData()
+        public void CreateToDoItem_Returns_HttpOKStatus_With_NewToDoItemData()
         {
             var response = (ToDoItemController.PostTodoItem(11, "newToDoItem").Result.Result) as ObjectResult;
             var newToDoItem = ((ToDoItem)(response.Value));
