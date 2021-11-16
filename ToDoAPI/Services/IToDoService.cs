@@ -11,7 +11,6 @@ namespace ToDoListAPI.ToDoAPI.Services
         Task<PagedList<ToDoList>> SearchTodoList(string filter, OwnerParameters op);
         Task<ToDoList> CreateToDoList(string listItemDesc);
         Task<ToDoList> UpdateTodoList(long todoListId, string listItemDesc);
-        Task<ToDoList> PatchTodoList(long id, JsonPatchDocument<ToDoList> todoListItem);
         Task<ToDoList> DeleteTodoList(long id);
 
 

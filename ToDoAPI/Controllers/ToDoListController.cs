@@ -113,26 +113,6 @@ namespace ToDoListAPI.ToDoAPI.Controllers
             if (result == null) return NotFound(); else return NoContent();
         }
 
-        // <summary>
-        /// Method to Patch TodoList Item based on given ID
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="todoListItem"></param>
-        /// <returns></returns>
-        [HttpPatch("{id:long}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [SwaggerOperation(Summary = "Method to Patch TodoList Item based on given ID")]
-        public async Task<IActionResult> JsonPatchTodoListItem(long id, [FromBody] JsonPatchDocument<ToDoList> todoListItem)
-        {
-            var item = await _todoItemService.PatchTodoList(id, todoListItem);
-            if (item == null)
-                return BadRequest();
-            else
-                return Ok();
-        }
         /// <summary>
         /// Method to create a TodoList Item
         /// </summary>

@@ -133,19 +133,6 @@ namespace ToDoListAPI.ToDoAPI.Services
             return todoItem;
         }
 
-        public async Task<ToDoList> PatchTodoList(long id, JsonPatchDocument<ToDoList> toDoListItem)
-        {
-            var taskitem = await _context.ToDoLists.Where(x => x.ListId == id).FirstOrDefaultAsync();
-            if (taskitem != null)
-            {
-                toDoListItem.ApplyTo(taskitem);
-                taskitem.UpdatedDate = DateTime.UtcNow;
-                _context.ToDoLists.Update(taskitem);
-                await _context.SaveChangesAsync();
-            }
-            return taskitem;
-        }
-
         public async Task<ToDoItem> PatchTodoItem(long id, JsonPatchDocument<ToDoItem> todoItem)
         {
             var item = await _context.ToDoItems.Where(x => x.ItemId == id).FirstOrDefaultAsync();
