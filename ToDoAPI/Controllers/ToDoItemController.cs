@@ -128,7 +128,7 @@ namespace ToDoListAPI.ToDoAPI.Controllers
             if (item == null)
                 return BadRequest();
             else
-                return Ok();
+                return Ok(item);
         }
 
         /// <summary>

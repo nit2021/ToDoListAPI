@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToDoListAPI.ToDoAPI.Controllers;
 using ToDoAPI.Core.Models;
 using ToDoAPI.MockService.Test;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace ToDoAPI.Test
 {
@@ -147,6 +148,24 @@ namespace ToDoAPI.Test
         {
             var response = (ToDoItemController.PutTodoItem(9999, "updateToDoItem").Result);
             Assert.AreEqual(((int)HttpStatusCode.NotFound), (response as NotFoundResult).StatusCode);
+        }
+
+        [TestMethod]
+        public void PatchToDoItem_Returns_HttpNoContentResult_OnSuccess()
+        {
+            JsonPatchDocument<ToDoItem> toDoItem = new JsonPatchDocument<ToDoItem>();
+            toDoItem.Replace(r => r.Description, "PatchValue");
+            var response = (ToDoItemController.JsonPatchTodoItem(21, toDoItem)).Result;
+            Assert.AreEqual(((int)HttpStatusCode.OK), (response as OkObjectResult).StatusCode);
+        }
+
+        [TestMethod]
+        public void PatchToDoItem_Returns_HttpNotFound_OnRecord()
+        {
+            JsonPatchDocument<ToDoItem> toDoItem = new JsonPatchDocument<ToDoItem>();
+            toDoItem.Replace(r => r.Description, "PatchValue");
+            var response = (ToDoItemController.JsonPatchTodoItem(9999, toDoItem).Result);
+            Assert.AreEqual(((int)HttpStatusCode.BadRequest), (response as BadRequestResult).StatusCode);
         }
 
         [TestMethod]
