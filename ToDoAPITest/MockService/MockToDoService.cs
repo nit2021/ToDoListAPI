@@ -19,11 +19,15 @@ namespace ToDoAPI.MockService.Test
         public MockToDoService()
         {
         }
-        public async Task<Label> CreateLabel(int ItemId, string LabelDesc)
+        public async Task<Label> CreateLabel(int ToDoItemID, int ToDoListID, string LabelDesc)
         {
             if (FailGet)
                 return null;
-            Label newlabel = new Label() { ItemOwner = ItemId, Description = LabelDesc, LabelId = 5 };
+            Label newlabel;
+            if (ToDoItemID != 0)
+                newlabel = new Label() { ToDoItemID = ToDoItemID, Description = LabelDesc, LabelId = 5 };
+            else
+                newlabel = new Label() { ToDoListID = ToDoListID, Description = LabelDesc, LabelId = 5 };
             labels.Add(newlabel);
             return await Task.FromResult(newlabel);
         }
@@ -32,7 +36,7 @@ namespace ToDoAPI.MockService.Test
         {
             if (FailGet)
                 return null;
-            ToDoItem newtoDoItem = new ToDoItem() { TaskOwner = taskId, Description = ItemDesc, ItemId = 15 };
+            ToDoItem newtoDoItem = new ToDoItem() { ToDoListID = taskId, Description = ItemDesc, ItemId = 15 };
             toDoItems.Add(newtoDoItem);
             return await Task.FromResult(newtoDoItem);
         }
@@ -41,7 +45,7 @@ namespace ToDoAPI.MockService.Test
         {
             if (FailGet)
                 return null;
-            ToDoList newtoDoList = new ToDoList() { Owner = 101, Description = listItemDesc, ListId = 15 };
+            ToDoList newtoDoList = new ToDoList() { OwnerID = 101, Description = listItemDesc, ListId = 15 };
             toDoLists.Add(newtoDoList);
             return await Task.FromResult(newtoDoList);
         }
@@ -118,7 +122,7 @@ namespace ToDoAPI.MockService.Test
         {
             if (FailGet)
                 return null;
-            var toDoItemList = new TestAsyncEnumerable<ToDoItem>(toDoItems.Where(x => x.TaskOwner == listId).Select(x => x).AsQueryable());
+            var toDoItemList = new TestAsyncEnumerable<ToDoItem>(toDoItems.Where(x => x.ToDoListID == listId).Select(x => x).AsQueryable());
             return await (PagedList<ToDoItem>.ToPagedList(toDoItemList, op.PageNumber, op.PageSize));
         }
 
@@ -132,7 +136,7 @@ namespace ToDoAPI.MockService.Test
 
         public async Task<ToDoItem> PatchTodoItem(long id, JsonPatchDocument<ToDoItem> todoItem)
         {
-            int index = toDoItems.FindIndex(x => x.TaskOwner == id);
+            int index = toDoItems.FindIndex(x => x.ToDoListID == id);
             if (index == -1)
                 return null;
             ToDoItem item = toDoItems[index];
