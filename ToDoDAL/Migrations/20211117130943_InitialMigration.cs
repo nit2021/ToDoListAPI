@@ -8,6 +8,21 @@ namespace ToDoDAL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Labels",
+                columns: table => new
+                {
+                    LabelId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Description = table.Column<string>(maxLength: 50, nullable: false),
+                    ToDoItemID = table.Column<int>(nullable: true),
+                    ToDoListID = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Labels", x => x.LabelId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -28,7 +43,7 @@ namespace ToDoDAL.Migrations
                     ListId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(maxLength: 50, nullable: false),
-                    Owner = table.Column<int>(nullable: false),
+                    OwnerID = table.Column<int>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     UpdatedDate = table.Column<DateTime>(nullable: true)
                 },
@@ -36,8 +51,8 @@ namespace ToDoDAL.Migrations
                 {
                     table.PrimaryKey("PK_ToDoLists", x => x.ListId);
                     table.ForeignKey(
-                        name: "FK_ToDoLists_Users_Owner",
-                        column: x => x.Owner,
+                        name: "FK_ToDoLists_Users_OwnerID",
+                        column: x => x.OwnerID,
                         principalTable: "Users",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
@@ -50,7 +65,7 @@ namespace ToDoDAL.Migrations
                     ItemId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(maxLength: 50, nullable: false),
-                    TaskOwner = table.Column<int>(nullable: false),
+                    ToDoListID = table.Column<int>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     UpdatedDate = table.Column<DateTime>(nullable: true)
                 },
@@ -58,33 +73,17 @@ namespace ToDoDAL.Migrations
                 {
                     table.PrimaryKey("PK_ToDoItems", x => x.ItemId);
                     table.ForeignKey(
-                        name: "FK_ToDoItems_ToDoLists_TaskOwner",
-                        column: x => x.TaskOwner,
+                        name: "FK_ToDoItems_ToDoLists_ToDoListID",
+                        column: x => x.ToDoListID,
                         principalTable: "ToDoLists",
                         principalColumn: "ListId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Labels",
-                columns: table => new
-                {
-                    LabelId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(maxLength: 50, nullable: false),
-                    ItemOwner = table.Column<int>(nullable: false),
-                    ToDoListID = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Labels", x => x.LabelId);
-                    table.ForeignKey(
-                        name: "FK_Labels_ToDoItems_ItemOwner",
-                        column: x => x.ItemOwner,
-                        principalTable: "ToDoItems",
-                        principalColumn: "ItemId",
-                        onDelete: ReferentialAction.Cascade);
-                });
+            migrationBuilder.InsertData(
+                table: "Labels",
+                columns: new[] { "LabelId", "Description", "ToDoItemID", "ToDoListID" },
+                values: new object[] { 401, "Label1", 301, 201 });
 
             migrationBuilder.InsertData(
                 table: "Users",
@@ -98,33 +97,23 @@ namespace ToDoDAL.Migrations
 
             migrationBuilder.InsertData(
                 table: "ToDoLists",
-                columns: new[] { "ListId", "CreatedDate", "Description", "Owner", "UpdatedDate" },
-                values: new object[] { 201, new DateTime(2021, 11, 16, 15, 49, 58, 359, DateTimeKind.Utc).AddTicks(8472), "ListItem1", 101, null });
+                columns: new[] { "ListId", "CreatedDate", "Description", "OwnerID", "UpdatedDate" },
+                values: new object[] { 201, new DateTime(2021, 11, 17, 13, 9, 42, 819, DateTimeKind.Utc).AddTicks(9861), "ListItem1", 101, null });
 
             migrationBuilder.InsertData(
                 table: "ToDoItems",
-                columns: new[] { "ItemId", "CreatedDate", "Description", "TaskOwner", "UpdatedDate" },
-                values: new object[] { 301, new DateTime(2021, 11, 16, 15, 49, 58, 359, DateTimeKind.Utc).AddTicks(9309), "Item1", 201, null });
-
-            migrationBuilder.InsertData(
-                table: "Labels",
-                columns: new[] { "LabelId", "Description", "ItemOwner", "ToDoListID" },
-                values: new object[] { 401, "Label1", 301, 201 });
+                columns: new[] { "ItemId", "CreatedDate", "Description", "ToDoListID", "UpdatedDate" },
+                values: new object[] { 301, new DateTime(2021, 11, 17, 13, 9, 42, 820, DateTimeKind.Utc).AddTicks(1498), "Item1", 201, null });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Labels_ItemOwner",
-                table: "Labels",
-                column: "ItemOwner");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ToDoItems_TaskOwner",
+                name: "IX_ToDoItems_ToDoListID",
                 table: "ToDoItems",
-                column: "TaskOwner");
+                column: "ToDoListID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ToDoLists_Owner",
+                name: "IX_ToDoLists_OwnerID",
                 table: "ToDoLists",
-                column: "Owner");
+                column: "OwnerID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

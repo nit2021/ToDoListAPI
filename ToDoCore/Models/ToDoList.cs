@@ -20,7 +20,7 @@ namespace ToDoAPI.Core.Models
 
         [ForeignKey("User")]
         [Required]
-        public int Owner { get; set; }
+        public int OwnerID { get; set; }
         public Users User { get; set; }
 
         [DataMember]

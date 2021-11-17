@@ -10,7 +10,7 @@ using ToDoAPI.DAL;
 namespace ToDoDAL.Migrations
 {
     [DbContext(typeof(ToDoContext))]
-    [Migration("20211116154958_InitialMigration")]
+    [Migration("20211117130943_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,15 +33,13 @@ namespace ToDoDAL.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<int>("ItemOwner")
+                    b.Property<int?>("ToDoItemID")
                         .HasColumnType("int");
 
-                    b.Property<int>("ToDoListID")
+                    b.Property<int?>("ToDoListID")
                         .HasColumnType("int");
 
                     b.HasKey("LabelId");
-
-                    b.HasIndex("ItemOwner");
 
                     b.ToTable("Labels");
 
@@ -50,7 +48,7 @@ namespace ToDoDAL.Migrations
                         {
                             LabelId = 401,
                             Description = "Label1",
-                            ItemOwner = 301,
+                            ToDoItemID = 301,
                             ToDoListID = 201
                         });
                 });
@@ -70,7 +68,7 @@ namespace ToDoDAL.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<int>("TaskOwner")
+                    b.Property<int>("ToDoListID")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -78,7 +76,7 @@ namespace ToDoDAL.Migrations
 
                     b.HasKey("ItemId");
 
-                    b.HasIndex("TaskOwner");
+                    b.HasIndex("ToDoListID");
 
                     b.ToTable("ToDoItems");
 
@@ -86,9 +84,9 @@ namespace ToDoDAL.Migrations
                         new
                         {
                             ItemId = 301,
-                            CreatedDate = new DateTime(2021, 11, 16, 15, 49, 58, 359, DateTimeKind.Utc).AddTicks(9309),
+                            CreatedDate = new DateTime(2021, 11, 17, 13, 9, 42, 820, DateTimeKind.Utc).AddTicks(1498),
                             Description = "Item1",
-                            TaskOwner = 201
+                            ToDoListID = 201
                         });
                 });
 
@@ -107,7 +105,7 @@ namespace ToDoDAL.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<int>("Owner")
+                    b.Property<int>("OwnerID")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -115,7 +113,7 @@ namespace ToDoDAL.Migrations
 
                     b.HasKey("ListId");
 
-                    b.HasIndex("Owner");
+                    b.HasIndex("OwnerID");
 
                     b.ToTable("ToDoLists");
 
@@ -123,9 +121,9 @@ namespace ToDoDAL.Migrations
                         new
                         {
                             ListId = 201,
-                            CreatedDate = new DateTime(2021, 11, 16, 15, 49, 58, 359, DateTimeKind.Utc).AddTicks(8472),
+                            CreatedDate = new DateTime(2021, 11, 17, 13, 9, 42, 819, DateTimeKind.Utc).AddTicks(9861),
                             Description = "ListItem1",
-                            Owner = 101
+                            OwnerID = 101
                         });
                 });
 
@@ -165,20 +163,11 @@ namespace ToDoDAL.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ToDoAPI.Core.Models.Label", b =>
-                {
-                    b.HasOne("ToDoAPI.Core.Models.ToDoItem", "ToDoItem")
-                        .WithMany()
-                        .HasForeignKey("ItemOwner")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("ToDoAPI.Core.Models.ToDoItem", b =>
                 {
                     b.HasOne("ToDoAPI.Core.Models.ToDoList", "ToDoList")
                         .WithMany()
-                        .HasForeignKey("TaskOwner")
+                        .HasForeignKey("ToDoListID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -187,7 +176,7 @@ namespace ToDoDAL.Migrations
                 {
                     b.HasOne("ToDoAPI.Core.Models.Users", "User")
                         .WithMany()
-                        .HasForeignKey("Owner")
+                        .HasForeignKey("OwnerID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

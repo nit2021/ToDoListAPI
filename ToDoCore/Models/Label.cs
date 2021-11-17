@@ -16,15 +16,10 @@ namespace ToDoAPI.Core.Models
         [MaxLength(50)]
         [DataMember]
         public string Description { get; set; }
-
-        [ForeignKey("ToDoItem")]
-        [Required]
-        public int ItemOwner { get; set; }
-
-        [ForeignKey("ToDoList")]
-        [Required]
-        public int ToDoListID { get; set; }
-        public ToDoItem ToDoItem { get; set; }
+        public int ? ToDoItemID { get; set; }
+        public int ? ToDoListID { get; set; }
+        
+       
 
     }
 }
