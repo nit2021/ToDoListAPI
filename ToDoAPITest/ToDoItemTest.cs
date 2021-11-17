@@ -169,11 +169,19 @@ namespace ToDoAPI.Test
         }
 
         [TestMethod]
-        public void DeleteToDoItem_Returns_NoContentHttpResult()
+        public void DeleteToDoItem_OnSuccess_Returns_NoContentHttpResult()
         {
-            var response = ((ToDoItemController.DeleteTodoItem(2)).Result);
+            var response = ((ToDoItemController.DeleteTodoItem(12)).Result);
             var deleteRequestResult = (response as NoContentResult);
             Assert.AreEqual(((int)HttpStatusCode.NoContent), deleteRequestResult.StatusCode);
+        }
+
+        [TestMethod]
+        public void DeleteToDoItem_OnFailure_Returns_NotFoundHttpResult()
+        {
+            var response = ((ToDoItemController.DeleteTodoItem(999)).Result);
+            var deleteRequestResult = (response as NotFoundResult);
+            Assert.AreEqual(((int)HttpStatusCode.NotFound), deleteRequestResult.StatusCode);
         }
     }
 }

@@ -141,12 +141,16 @@ namespace ToDoListAPI.ToDoAPI.Controllers
         [HttpDelete("{id:long}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(Summary = "Delete TodoList Item of given ID")]
         public async Task<IActionResult> DeleteTodoListItem(long id)
         {
-            await _todoItemService.DeleteTodoList(id);
-            return NoContent();
+            var deletedListItem = await _todoItemService.DeleteTodoList(id);
+            if (deletedListItem == null)
+                return NotFound();
+            else
+                return NoContent();
         }
     }
 }

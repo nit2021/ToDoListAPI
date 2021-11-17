@@ -102,11 +102,18 @@ namespace ToDoAPI.Test
         }
 
         [TestMethod]
-        public void DeleteLabel_Returns_NoContentHttpResult()
+        public void DeleteLabel_OnSuccess_Returns_NoContentHttpResult()
         {
             var response = ((labelController.DeleteLabel(2)).Result);
             var deleteRequestResult = (response as NoContentResult);
             Assert.AreEqual(((int)HttpStatusCode.NoContent), deleteRequestResult.StatusCode);
+        }
+        [TestMethod]
+        public void DeleteLabel_OnFailure_Returns_NotFoundHttpResult()
+        {
+            var response = ((labelController.DeleteLabel(999)).Result);
+            var deleteRequestResult = (response as NotFoundResult);
+            Assert.AreEqual(((int)HttpStatusCode.NotFound), deleteRequestResult.StatusCode);
         }
     }
 }

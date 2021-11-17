@@ -132,11 +132,19 @@ namespace ToDoAPI.Test
         }
 
         [TestMethod]
-        public void DeleteToDoList_Returns_NoContentHttpResult()
+        public void DeleteToDoList_OnSuccess_Returns_NoContentHttpResult()
         {
-            var response = ((toDoListController.DeleteTodoListItem(2)).Result);
+            var response = ((toDoListController.DeleteTodoListItem(23)).Result);
             var deleteRequestResult = (response as NoContentResult);
             Assert.AreEqual(((int)HttpStatusCode.NoContent), deleteRequestResult.StatusCode);
+        }
+
+        [TestMethod]
+        public void DeleteToDoList_OnFailure_Returns_NoContentHttpResult()
+        {
+            var response = ((toDoListController.DeleteTodoListItem(999)).Result);
+            var deleteRequestResult = (response as NotFoundResult);
+            Assert.AreEqual(((int)HttpStatusCode.NotFound), deleteRequestResult.StatusCode);
         }
     }
 }
