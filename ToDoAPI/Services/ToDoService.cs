@@ -22,23 +22,24 @@ namespace ToDoListAPI.ToDoAPI.Services
 
         public async Task<PagedList<ToDoList>> GetAllTodoList(OwnerParameters op)
         {
-            return await (PagedList<ToDoList>.ToPagedList(_context.ToDoLists.Where(x => x.Owner == _userService.userId), op.PageNumber, op.PageSize));
+            return await (PagedList<ToDoList>.ToPagedList(_context.ToDoLists.Where(x => x.OwnerID == _userService.userId), op.PageNumber, op.PageSize));
         }
         public async Task<PagedList<ToDoItem>> GetAllTodoItem(OwnerParameters op)
         {
-            return await (PagedList<ToDoItem>.ToPagedList(_context.ToDoItems.Where(x => x.ToDoList.Owner == _userService.userId), op.PageNumber, op.PageSize));
+            return await (PagedList<ToDoItem>.ToPagedList(_context.ToDoItems.Where(x => x.ToDoList.OwnerID == _userService.userId), op.PageNumber, op.PageSize));
         }
         public async Task<ToDoList> GetTodoListById(long id)
         {
-            return await _context.ToDoLists.Where(x => x.ListId == id && x.Owner == _userService.userId).FirstOrDefaultAsync();
+            return await _context.ToDoLists.Where(x => x.ListId == id && x.OwnerID == _userService.userId).FirstOrDefaultAsync();
         }
 
         public async Task<PagedList<Label>> GetAllLabel(OwnerParameters op)
         {
-            var result= from x in _context.Labels 
-                        join y in _context.ToDoItems on x.ItemOwner equals y.ItemId
-                        join z in _context.ToDoLists on y.TaskOwner equals z.ListId 
-                        where z.Owner==_userService.userId select x;
+            var result = from x in _context.Labels
+                         join y in _context.ToDoItems on x.ToDoItemID equals y.ItemId
+                         join z in _context.ToDoLists on y.ToDoListID equals z.ListId
+                         where z.OwnerID == _userService.userId
+                         select x;
             return await (PagedList<Label>.ToPagedList(result, op.PageNumber, op.PageSize));
         }
         public async Task<ToDoList> DeleteTodoList(long id)
@@ -63,22 +64,22 @@ namespace ToDoListAPI.ToDoAPI.Services
         }
         async Task<PagedList<ToDoList>> IToDoService.SearchTodoList(string filter, OwnerParameters op)
         {
-            return await (PagedList<ToDoList>.ToPagedList(_context.ToDoLists.Where(x => x.Description.Contains(filter) && x.Owner == _userService.userId), op.PageNumber, op.PageSize));
+            return await (PagedList<ToDoList>.ToPagedList(_context.ToDoLists.Where(x => x.Description.Contains(filter) && x.OwnerID == _userService.userId), op.PageNumber, op.PageSize));
         }
 
         public async Task<ToDoItem> GetTodoItemById(long itemId)
         {
-            return await (_context.ToDoItems.Where(x => x.ItemId == itemId && x.ToDoList.Owner == _userService.userId).FirstOrDefaultAsync());
+            return await (_context.ToDoItems.Where(x => x.ItemId == itemId && x.ToDoList.OwnerID == _userService.userId).FirstOrDefaultAsync());
         }
 
         public async Task<PagedList<ToDoItem>> GetTodoItemByTodoListId(long listId, OwnerParameters op)
         {
-            return await (PagedList<ToDoItem>.ToPagedList(_context.ToDoItems.Where(x => x.TaskOwner == listId && x.ToDoList.Owner == _userService.userId), op.PageNumber, op.PageSize));
+            return await (PagedList<ToDoItem>.ToPagedList(_context.ToDoItems.Where(x => x.ToDoListID == listId && x.ToDoList.OwnerID == _userService.userId), op.PageNumber, op.PageSize));
         }
 
         public async Task<PagedList<ToDoItem>> SearchTodoItem(string filter, OwnerParameters op)
         {
-            return await (PagedList<ToDoItem>.ToPagedList(_context.ToDoItems.Where(x => x.Description.Contains(filter) && x.ToDoList.Owner == _userService.userId), op.PageNumber, op.PageSize));
+            return await (PagedList<ToDoItem>.ToPagedList(_context.ToDoItems.Where(x => x.Description.Contains(filter) && x.ToDoList.OwnerID == _userService.userId), op.PageNumber, op.PageSize));
         }
 
         public async Task<ToDoList> CreateToDoList(string listItemDesc)
@@ -86,7 +87,7 @@ namespace ToDoListAPI.ToDoAPI.Services
             ToDoList newListItem = new ToDoList();
             newListItem.Description = listItemDesc;
             newListItem.CreatedDate = DateTime.UtcNow;
-            newListItem.Owner = _userService.userId;
+            newListItem.OwnerID = _userService.userId;
             _context.ToDoLists.Attach(newListItem);
             await _context.SaveChangesAsync();
             return newListItem;
@@ -96,7 +97,7 @@ namespace ToDoListAPI.ToDoAPI.Services
             ToDoItem newitem = new ToDoItem();
             if (IsToDoList(taskId))
             {
-                newitem.TaskOwner = taskId;
+                newitem.ToDoListID = taskId;
                 newitem.Description = ItemDesc;
                 newitem.CreatedDate = DateTime.UtcNow;
                 _context.ToDoItems.Attach(newitem);
@@ -146,11 +147,16 @@ namespace ToDoListAPI.ToDoAPI.Services
             return item;
         }
 
-        public async Task<Label> CreateLabel(int ItemId, string LabelDesc)
+        public async Task<Label> CreateLabel(int ToDoItemID, int ToDoListID, string LabelDesc)
         {
             Label newLabel = new Label();
             newLabel.Description = LabelDesc;
-            newLabel.ToDoItem = new ToDoItem() { ItemId = ItemId };
+            if (IsToDoItem(ToDoItemID))
+                newLabel.ToDoItemID = ToDoItemID;
+            if (IsToDoList(ToDoListID))
+                newLabel.ToDoListID = ToDoListID;
+            if (newLabel.ToDoItemID == null && newLabel.ToDoListID == null)
+                return null;
             _context.Labels.Attach(newLabel);
             await _context.SaveChangesAsync();
             return newLabel;

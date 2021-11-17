@@ -6,6 +6,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToDoListAPI.ToDoAPI.Controllers;
 using ToDoAPI.Core.Models;
 using ToDoAPI.MockService.Test;
+using ToDoListAPI.ToDoAPI.DTO;
+using AutoMapper;
+using ToDoListAPI.ToDoAPI.Mappings;
 
 namespace ToDoAPI.Test
 {
@@ -28,6 +31,10 @@ namespace ToDoAPI.Test
         /// </summary>
         private OwnerParameters op;
 
+        /// <summary>
+        /// The IMapper
+        /// </summary>
+        private IMapper _mapper;
 
         /// <summary>
         /// Setups this instance.
@@ -35,27 +42,19 @@ namespace ToDoAPI.Test
         [TestInitialize]
         public void Setup()
         {
+            var myProfile = new MappingProfile();
             op = new OwnerParameters();
+            var configuration = new MapperConfiguration(cfg => cfg.AddProfile(myProfile));
+            _mapper = new Mapper(configuration);
             _toDoService = new MockToDoService();
             _toDoService.labels = new List<Label>()
             {
-                new Label { LabelId = 1, Description = "Label1", ItemOwner = 11 },
-                new Label { LabelId = 2, Description = "Label2", ItemOwner = 11 },
-                new Label { LabelId = 3, Description = "Label3", ItemOwner = 12 },
-                new Label { LabelId = 4, Description = "Label4", ItemOwner = 12 }
+                new Label { LabelId = 1, Description = "Label1", ToDoItemID = 11 },
+                new Label { LabelId = 2, Description = "Label2", ToDoItemID = 11 },
+                new Label { LabelId = 3, Description = "Label3", ToDoItemID = 12 },
+                new Label { LabelId = 4, Description = "Label4", ToDoItemID = 12 }
             };
-            labelController = new ToDoLabelController(_toDoService);
-        }
-
-        /// <summary>
-        /// Gets the label valid data.
-        /// </summary>
-        [TestMethod]
-        public void GetLabel_Returns_LabelData()
-        {
-            var response = (labelController.GetTodoLabel(op).Result.Result) as ObjectResult;
-            var jj = ((PagedList<Label>)(response.Value)).ToList();
-            Assert.AreEqual(jj.Count, 4);
+            labelController = new ToDoLabelController(_toDoService, _mapper);
         }
 
         /// <summary>
@@ -73,7 +72,7 @@ namespace ToDoAPI.Test
         public void GetLabel_Should_Return_HttpOkResult_With_Label()
         {
             var response = (labelController.GetTodoLabel(op).Result.Result) as ObjectResult;
-            var labels = ((PagedList<Label>)(response.Value)).ToList();
+            var labels = ((IEnumerable<LabelDTO>)(response.Value)).ToList();
             Assert.AreEqual((int)HttpStatusCode.OK, response.StatusCode);
             Assert.AreEqual(labels.Count, 4);
         }
@@ -81,11 +80,11 @@ namespace ToDoAPI.Test
         [TestMethod]
         public void CreateLabel_Returns_NewLabelData()
         {
-            var response = (labelController.PostLabel(11, "newlabel").Result.Result) as ObjectResult;
-            var newLabel = ((Label)(response.Value));
+            var response = (labelController.PostLabel(11, 0, "newlabel").Result.Result) as ObjectResult;
+            var newLabel = ((LabelDTO)(response.Value));
 
             Assert.AreNotEqual(newLabel.LabelId, 0);
-            Assert.AreEqual(newLabel.ItemOwner, 11);
+            Assert.AreEqual(newLabel.ToDoItemID, 11);
             Assert.AreEqual(newLabel.Description, "newlabel");
             Assert.AreEqual((int)HttpStatusCode.OK, (response as ObjectResult).StatusCode);
         }
@@ -94,8 +93,8 @@ namespace ToDoAPI.Test
         public void CreateLabel_Should_Returns_With_HttpBadRequest_NoData()
         {
             _toDoService.FailGet = true;
-            var response = (labelController.PostLabel(0, null).Result);
-            var newLabel = ((Label)(response.Value));
+            var response = (labelController.PostLabel(0, 0, null).Result);
+            var newLabel = ((LabelDTO)(response.Value));
 
             Assert.AreEqual(newLabel, null);
             Assert.AreEqual((int)HttpStatusCode.BadRequest, (response.Result as ObjectResult).StatusCode);

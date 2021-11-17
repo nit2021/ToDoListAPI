@@ -24,7 +24,7 @@ namespace ToDoListAPI.ToDoAPI.Services
         Task<ToDoItem> DeleteTodoItem(long id);
 
         Task<PagedList<Label>> GetAllLabel(OwnerParameters op);
-        Task<Label> CreateLabel(int ItemId, string LabelDesc);
+        Task<Label> CreateLabel(int ToDoItemID, int ToDoListID, string LabelDesc);
         Task<Label> DeleteLabel(long id);
     }
 }
