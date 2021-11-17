@@ -39,10 +39,10 @@ namespace ToDoAPI.Test
             _toDoService = new MockToDoService();
             _toDoService.toDoLists = new List<ToDoList>()
             {
-                new ToDoList { ListId = 21, Description = "ToDoList1", CreatedDate=DateTime.UtcNow, Owner = 101 },
-                new ToDoList { ListId = 22, Description = "ToDoList2", CreatedDate=DateTime.UtcNow, Owner = 101 },
-                new ToDoList { ListId = 23, Description = "ToDoList3", CreatedDate=DateTime.UtcNow, Owner = 102 },
-                new ToDoList { ListId = 24, Description = "ToDoList4", CreatedDate=DateTime.UtcNow, Owner = 102 }
+                new ToDoList { ListId = 21, Description = "ToDoList1", CreatedDate=DateTime.UtcNow, OwnerID = 101 },
+                new ToDoList { ListId = 22, Description = "ToDoList2", CreatedDate=DateTime.UtcNow, OwnerID = 101 },
+                new ToDoList { ListId = 23, Description = "ToDoList3", CreatedDate=DateTime.UtcNow, OwnerID = 102 },
+                new ToDoList { ListId = 24, Description = "ToDoList4", CreatedDate=DateTime.UtcNow, OwnerID = 102 }
             };
             toDoListController = new ToDoListController(_toDoService);
         }

@@ -40,10 +40,10 @@ namespace ToDoAPI.Test
             _toDoService = new MockToDoService();
             _toDoService.toDoItems = new List<ToDoItem>()
             {
-                new ToDoItem { ItemId = 11, Description = "ToDoItem_11", CreatedDate=DateTime.UtcNow, TaskOwner = 21 },
-                new ToDoItem { ItemId = 12, Description = "ToDoItem_12", CreatedDate=DateTime.UtcNow, TaskOwner = 21 },
-                new ToDoItem { ItemId = 13, Description = "ToDoItem_13", CreatedDate=DateTime.UtcNow, TaskOwner = 22 },
-                new ToDoItem { ItemId = 14, Description = "ToDoItem_14", CreatedDate=DateTime.UtcNow, TaskOwner = 22 }
+                new ToDoItem { ItemId = 11, Description = "ToDoItem_11", CreatedDate=DateTime.UtcNow, ToDoListID = 21 },
+                new ToDoItem { ItemId = 12, Description = "ToDoItem_12", CreatedDate=DateTime.UtcNow, ToDoListID = 21 },
+                new ToDoItem { ItemId = 13, Description = "ToDoItem_13", CreatedDate=DateTime.UtcNow, ToDoListID = 22 },
+                new ToDoItem { ItemId = 14, Description = "ToDoItem_14", CreatedDate=DateTime.UtcNow, ToDoListID = 22 }
             };
             ToDoItemController = new ToDoItemController(_toDoService);
         }
@@ -120,7 +120,7 @@ namespace ToDoAPI.Test
             var newToDoItem = ((ToDoItem)(response.Value));
 
             Assert.AreNotEqual(newToDoItem.ItemId, 0);
-            Assert.AreEqual(newToDoItem.TaskOwner, 11);
+            Assert.AreEqual(newToDoItem.ToDoListID, 11);
             Assert.AreEqual(newToDoItem.Description, "newToDoItem");
             Assert.AreEqual((int)HttpStatusCode.OK, response.StatusCode);
         }
