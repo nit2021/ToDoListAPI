@@ -13,6 +13,7 @@ using ToDoAPI.DAL;
 using ToDoListAPI.ToDoAPI.GraphQL;
 using ToDoListAPI.ToDoAPI.Middleware;
 using ToDoListAPI.ToDoAPI.Services;
+using ToDoAPI.Core.Models;
 
 namespace ToDoListAPI.ToDoAPI
 {
@@ -28,6 +29,7 @@ namespace ToDoListAPI.ToDoAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddDbContextPool<ToDoContext>(optionsAction =>
             optionsAction.UseSqlServer(Configuration.GetConnectionString("ToDoContext"),
             sqlServerOptionsAction: sqlOptions =>
@@ -80,12 +82,14 @@ namespace ToDoListAPI.ToDoAPI
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IToDoService, ToDoService>();
+            services.AddTransient<CorrelationID, CorrelationID>();
             services.AddGraphQLServer().AddQueryType<Query>().AddMutationType<Mutation>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors();
             app.UseMiddleware<ExceptionMiddleware>();
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -96,6 +100,7 @@ namespace ToDoListAPI.ToDoAPI
             {
                 Path = "/playground"
             });
+            app.UseMiddleware<CorrelationIdToResponseMiddleware>();
             app.UseHttpsRedirection();
             app.UseMiddleware<RequestResponseLoggingMiddleware>();
             app.UseRouting();
