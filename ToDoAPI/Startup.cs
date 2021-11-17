@@ -14,6 +14,7 @@ using ToDoListAPI.ToDoAPI.GraphQL;
 using ToDoListAPI.ToDoAPI.Middleware;
 using ToDoListAPI.ToDoAPI.Services;
 using ToDoAPI.Core.Models;
+using AutoMapper;
 
 namespace ToDoListAPI.ToDoAPI
 {
@@ -79,7 +80,7 @@ namespace ToDoListAPI.ToDoAPI
 
             services.AddAuthentication("BasicAuthentication")
             .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
-
+            services.AddAutoMapper(typeof(Startup));
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IToDoService, ToDoService>();
             services.AddTransient<CorrelationID, CorrelationID>();
