@@ -37,7 +37,7 @@ DB Setup
 
 7. Run command below in terminal to create migration
 	
-	"dotnet ef --startup-project ./ToDoAPI.csproj migrations add InitialMigration --context ToDoContext --output-dir Migrations --project ../ToDoDAL/ToDoDAL.csproj"
+	"dotnet ef --startup-project ./ToDoAPI.csproj migrations add NewMigrationToDo --context ToDoContext --output-dir Migrations --project ../ToDoDAL/ToDoDAL.csproj"
 	
 8. Run command below in terminal to create database in SQL Express
 	
