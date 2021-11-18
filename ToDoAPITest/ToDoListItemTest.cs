@@ -7,6 +7,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToDoListAPI.ToDoAPI.Controllers;
 using ToDoAPI.Core.Models;
 using ToDoAPI.MockService.Test;
+using AutoMapper;
+using ToDoListAPI.ToDoAPI.Mappings;
+using ToDoListAPI.ToDoAPI.DTO;
 
 namespace ToDoAPI.Test
 {
@@ -28,6 +31,10 @@ namespace ToDoAPI.Test
         /// </summary>
         private OwnerParameters op;
 
+        /// <summary>
+        /// The IMapper
+        /// </summary>
+        private IMapper _mapper;
 
         /// <summary>
         /// Setups this instance.
@@ -35,7 +42,10 @@ namespace ToDoAPI.Test
         [TestInitialize]
         public void Setup()
         {
+            var myProfile = new MappingProfile();
             op = new OwnerParameters();
+            var configuration = new MapperConfiguration(cfg => cfg.AddProfile(myProfile));
+            _mapper = new Mapper(configuration);
             _toDoService = new MockToDoService();
             _toDoService.toDoLists = new List<ToDoList>()
             {
@@ -44,7 +54,7 @@ namespace ToDoAPI.Test
                 new ToDoList { ListId = 23, Description = "ToDoList3", CreatedDate=DateTime.UtcNow, OwnerID = 102 },
                 new ToDoList { ListId = 24, Description = "ToDoList4", CreatedDate=DateTime.UtcNow, OwnerID = 102 }
             };
-            toDoListController = new ToDoListController(_toDoService);
+            toDoListController = new ToDoListController(_toDoService, _mapper);
         }
 
         /// <summary>
@@ -54,7 +64,7 @@ namespace ToDoAPI.Test
         public void GetToDoList_Returns_ToDoListData()
         {
             var response = (toDoListController.GetTodoListItem(op).Result.Result) as ObjectResult;
-            var jj = ((PagedList<ToDoList>)(response.Value)).ToList();
+            var jj = ((IEnumerable<ToDoListDTO>)(response.Value)).ToList();
             Assert.AreEqual(jj.Count, 4);
         }
 
@@ -73,7 +83,7 @@ namespace ToDoAPI.Test
         public void GetToDoList_Should_Return_HttpOkResult_With_ToDoList()
         {
             var response = (toDoListController.GetTodoListItem(op).Result.Result) as ObjectResult;
-            var ToDoLists = ((PagedList<ToDoList>)(response.Value)).ToList();
+            var ToDoLists = ((IEnumerable<ToDoListDTO>)(response.Value)).ToList();
             Assert.AreEqual((int)HttpStatusCode.OK, response.StatusCode);
             Assert.AreEqual(ToDoLists.Count, 4);
         }
@@ -90,7 +100,7 @@ namespace ToDoAPI.Test
         public void SearchToDoList_Should_Return_HttpOkResult_With_ToDoList()
         {
             var response = (toDoListController.SearchTodoListItem("ToDoList2", op).Result.Result) as ObjectResult;
-            var ToDoLists = ((PagedList<ToDoList>)(response.Value)).ToList();
+            var ToDoLists = ((IEnumerable<ToDoListDTO>)(response.Value)).ToList();
             Assert.AreEqual((int)HttpStatusCode.OK, response.StatusCode);
             Assert.AreEqual(ToDoLists.Count, 1);
         }
@@ -99,7 +109,7 @@ namespace ToDoAPI.Test
         public void CreateToDoList_Returns_NewToDoListData()
         {
             var response = (toDoListController.PostTodoListItem("newToDoList").Result.Result) as ObjectResult;
-            var newToDoList = ((ToDoList)(response.Value));
+            var newToDoList = ((ToDoListDTO)(response.Value));
 
             Assert.AreNotEqual(newToDoList.ListId, 0);
             Assert.AreEqual(newToDoList.Description, "newToDoList");
@@ -111,7 +121,7 @@ namespace ToDoAPI.Test
         {
             _toDoService.FailGet = true;
             var response = (toDoListController.PostTodoListItem(null).Result);
-            var newToDoList = ((ToDoList)(response.Value));
+            var newToDoList = ((ToDoListDTO)(response.Value));
 
             Assert.AreEqual(newToDoList, null);
             Assert.AreEqual((int)HttpStatusCode.BadRequest, (response.Result as ObjectResult).StatusCode);

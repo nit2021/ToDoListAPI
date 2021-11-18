@@ -1,12 +1,14 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using ToDoAPI.Core.Models;
+using ToDoListAPI.ToDoAPI.DTO;
 using ToDoListAPI.ToDoAPI.Services;
 
 namespace ToDoListAPI.ToDoAPI.Controllers
@@ -17,9 +19,11 @@ namespace ToDoListAPI.ToDoAPI.Controllers
     public class ToDoListController : ControllerBase
     {
         private readonly IToDoService _todoItemService;
-        public ToDoListController(IToDoService todoItemService)
+        private readonly IMapper _mapper;
+        public ToDoListController(IToDoService todoItemService, IMapper mapper)
         {
             _todoItemService = todoItemService;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -33,15 +37,15 @@ namespace ToDoListAPI.ToDoAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(Summary = "Method to get List of All TodoList Items")]
-        public async Task<ActionResult<IEnumerable<ToDoList>>> GetTodoListItem([FromQuery] OwnerParameters options)
+        public async Task<ActionResult<IEnumerable<ToDoListDTO>>> GetTodoListItem([FromQuery] OwnerParameters options)
         {
             var todoListItems = await _todoItemService.GetAllTodoList(options);
             if (todoListItems == null)
             {
                 return NotFound(new { message = "TodoList Item does not exists" });
             }
-            return Ok(todoListItems);
-
+            var toDoListDTO = _mapper.Map<IEnumerable<ToDoList>, IEnumerable<ToDoListDTO>>(todoListItems);
+            return Ok(toDoListDTO);
         }
 
         /// <summary>
@@ -55,7 +59,7 @@ namespace ToDoListAPI.ToDoAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(Summary = "Get TodoList Item based on given ID")]
-        public async Task<ActionResult<ToDoList>> GetTodoListItem(long id)
+        public async Task<ActionResult<ToDoListDTO>> GetTodoListItem(long id)
         {
             var todoListItem = await _todoItemService.GetTodoListById(id);
 
@@ -63,7 +67,8 @@ namespace ToDoListAPI.ToDoAPI.Controllers
             {
                 return NotFound(new { message = "TodoList Item does not exists" });
             }
-            return Ok(todoListItem);
+            var toDoListDTO = _mapper.Map<ToDoList, ToDoListDTO>(todoListItem);
+            return Ok(toDoListDTO);
         }
 
         /// <summary>
@@ -75,17 +80,20 @@ namespace ToDoListAPI.ToDoAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ToDoList), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ToDoListDTO), (int)HttpStatusCode.OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(Summary = "Search TodoList Item based on Search Filter")]
         [Route("SearchToDoListItem")]
-        public async Task<ActionResult<ToDoList>> SearchTodoListItem([FromQuery] string filter, [FromQuery] OwnerParameters op)
+        public async Task<ActionResult<ToDoListDTO>> SearchTodoListItem([FromQuery] string filter, [FromQuery] OwnerParameters op)
         {
-            var result = await _todoItemService.SearchTodoList(filter, op);
-            if (result == null)
+            var searchedList = await _todoItemService.SearchTodoList(filter, op);
+            if (searchedList == null)
                 return NotFound();
             else
-                return Ok(result);
+            {
+                var toDoListDTO = _mapper.Map<IEnumerable<ToDoList>, IEnumerable<ToDoListDTO>>(searchedList);
+                return Ok(toDoListDTO);
+            }
         }
 
 
@@ -124,13 +132,14 @@ namespace ToDoListAPI.ToDoAPI.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(Summary = "Creates a TodoList Item")]
-        public async Task<ActionResult<ToDoList>> PostTodoListItem([FromQuery] string ItemDesc)
+        public async Task<ActionResult<ToDoListDTO>> PostTodoListItem([FromQuery] string ItemDesc)
         {
             if (ItemDesc == null)
                 return BadRequest(new { message = "TodoList Item Description mandatory" });
 
             ToDoList item = await _todoItemService.CreateToDoList(ItemDesc);
-            return Ok(item);
+            var toDoListDTO = _mapper.Map<ToDoList, ToDoListDTO>(item);
+            return Ok(toDoListDTO);
         }
 
         /// <summary>
