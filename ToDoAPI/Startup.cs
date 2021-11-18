@@ -35,7 +35,7 @@ namespace ToDoListAPI.ToDoAPI
             optionsAction.UseSqlServer(Configuration.GetConnectionString("ToDoContext"),
             sqlServerOptionsAction: sqlOptions =>
             {
-                sqlOptions.CommandTimeout(20);
+                sqlOptions.CommandTimeout(60);
                 sqlOptions.EnableRetryOnFailure();
             })
             );
