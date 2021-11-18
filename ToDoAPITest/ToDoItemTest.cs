@@ -8,6 +8,9 @@ using ToDoListAPI.ToDoAPI.Controllers;
 using ToDoAPI.Core.Models;
 using ToDoAPI.MockService.Test;
 using Microsoft.AspNetCore.JsonPatch;
+using AutoMapper;
+using ToDoListAPI.ToDoAPI.Mappings;
+using ToDoListAPI.ToDoAPI.DTO;
 
 namespace ToDoAPI.Test
 {
@@ -29,6 +32,10 @@ namespace ToDoAPI.Test
         /// </summary>
         private OwnerParameters op;
 
+        /// <summary>
+        /// The IMapper
+        /// </summary>
+        private IMapper _mapper;
 
         /// <summary>
         /// Setups this instance.
@@ -36,7 +43,10 @@ namespace ToDoAPI.Test
         [TestInitialize]
         public void Setup()
         {
+            var myProfile = new MappingProfile();
             op = new OwnerParameters();
+            var configuration = new MapperConfiguration(cfg => cfg.AddProfile(myProfile));
+            _mapper = new Mapper(configuration);
             _toDoService = new MockToDoService();
             _toDoService.toDoItems = new List<ToDoItem>()
             {
@@ -45,7 +55,7 @@ namespace ToDoAPI.Test
                 new ToDoItem { ItemId = 13, Description = "ToDoItem_13", CreatedDate=DateTime.UtcNow, ToDoListID = 22 },
                 new ToDoItem { ItemId = 14, Description = "ToDoItem_14", CreatedDate=DateTime.UtcNow, ToDoListID = 22 }
             };
-            ToDoItemController = new ToDoItemController(_toDoService);
+            ToDoItemController = new ToDoItemController(_toDoService, _mapper);
         }
 
         /// <summary>
@@ -55,7 +65,7 @@ namespace ToDoAPI.Test
         public void GetToDoItem_Returns_ToDoItemData()
         {
             var response = (ToDoItemController.GetTodoItemList(op).Result.Result) as ObjectResult;
-            var jj = ((PagedList<ToDoItem>)(response.Value)).ToList();
+            var jj = ((IEnumerable<ToDoItemDTO>)(response.Value)).ToList();
             Assert.AreEqual(jj.Count, 4);
         }
 
@@ -74,7 +84,7 @@ namespace ToDoAPI.Test
         public void GetToDoItem_Should_Return_HttpOkResult_With_ToDoItem()
         {
             var response = (ToDoItemController.GetTodoItemList(op).Result.Result) as ObjectResult;
-            var ToDoItems = ((PagedList<ToDoItem>)(response.Value)).ToList();
+            var ToDoItems = ((IEnumerable<ToDoItemDTO>)(response.Value)).ToList();
             Assert.AreEqual((int)HttpStatusCode.OK, response.StatusCode);
             Assert.AreEqual(ToDoItems.Count, 4);
         }
@@ -91,7 +101,7 @@ namespace ToDoAPI.Test
         public void SearchToDoItem_Should_Return_HttpOkResult_With_ToDoItem()
         {
             var response = (ToDoItemController.SearchTodoItem("Item", op).Result.Result) as ObjectResult;
-            var ToDoItems = ((PagedList<ToDoItem>)(response.Value)).ToList();
+            var ToDoItems = ((IEnumerable<ToDoItemDTO>)(response.Value)).ToList();
             Assert.AreEqual((int)HttpStatusCode.OK, response.StatusCode);
             Assert.AreEqual(ToDoItems.Count, 4);
         }
@@ -108,7 +118,7 @@ namespace ToDoAPI.Test
         public void GetToDoItemByID_Should_Return_HttpOkResult_With_ToDoItem()
         {
             var response = (ToDoItemController.GetTodoItem(11).Result.Result) as ObjectResult;
-            var ToDoItems = ((ToDoItem)(response.Value));
+            var ToDoItems = ((ToDoItemDTO)(response.Value));
             Assert.AreEqual((int)HttpStatusCode.OK, response.StatusCode);
             Assert.AreEqual(ToDoItems.ItemId, 11);
         }
@@ -117,7 +127,7 @@ namespace ToDoAPI.Test
         public void CreateToDoItem_Returns_HttpOKStatus_With_NewToDoItemData()
         {
             var response = (ToDoItemController.PostTodoItem(11, "newToDoItem").Result.Result) as ObjectResult;
-            var newToDoItem = ((ToDoItem)(response.Value));
+            var newToDoItem = ((ToDoItemDTO)(response.Value));
 
             Assert.AreNotEqual(newToDoItem.ItemId, 0);
             Assert.AreEqual(newToDoItem.ToDoListID, 11);
@@ -130,7 +140,7 @@ namespace ToDoAPI.Test
         {
             _toDoService.FailGet = true;
             var response = (ToDoItemController.PostTodoItem(0, null).Result);
-            var newToDoItem = ((ToDoItem)(response.Value));
+            var newToDoItem = ((ToDoItemDTO)(response.Value));
 
             Assert.AreEqual(newToDoItem, null);
             Assert.AreEqual((int)HttpStatusCode.BadRequest, (response.Result as BadRequestObjectResult).StatusCode);
