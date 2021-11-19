@@ -82,7 +82,7 @@ namespace ToDoDAL.Migrations
                         new
                         {
                             ItemId = 301,
-                            CreatedDate = new DateTime(2021, 11, 17, 13, 9, 42, 820, DateTimeKind.Utc).AddTicks(1498),
+                            CreatedDate = new DateTime(2021, 11, 19, 11, 35, 35, 417, DateTimeKind.Utc).AddTicks(7172),
                             Description = "Item1",
                             ToDoListID = 201
                         });
@@ -119,7 +119,7 @@ namespace ToDoDAL.Migrations
                         new
                         {
                             ListId = 201,
-                            CreatedDate = new DateTime(2021, 11, 17, 13, 9, 42, 819, DateTimeKind.Utc).AddTicks(9861),
+                            CreatedDate = new DateTime(2021, 11, 19, 11, 35, 35, 417, DateTimeKind.Utc).AddTicks(6196),
                             Description = "ListItem1",
                             OwnerID = 101
                         });
@@ -150,13 +150,13 @@ namespace ToDoDAL.Migrations
                         new
                         {
                             UserId = 101,
-                            Password = "Pa$$w0rd",
+                            Password = "EV9zkHMWIr+8VQ7eqzBpDesrvqKYB4PCXTAa9C/Bcng=",
                             UserName = "Admin"
                         },
                         new
                         {
                             UserId = 102,
-                            Password = "Pa$$w0rd",
+                            Password = "EV9zkHMWIr+8VQ7eqzBpDZ/8mb+J0unVgxlb1UV8IdY=",
                             UserName = "Standard"
                         });
                 });

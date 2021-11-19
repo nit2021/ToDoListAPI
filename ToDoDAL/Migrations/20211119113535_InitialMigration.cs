@@ -88,22 +88,22 @@ namespace ToDoDAL.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "Password", "UserName" },
-                values: new object[] { 101, "Pa$$w0rd", "Admin" });
+                values: new object[] { 101, "EV9zkHMWIr+8VQ7eqzBpDesrvqKYB4PCXTAa9C/Bcng=", "Admin" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "Password", "UserName" },
-                values: new object[] { 102, "Pa$$w0rd", "Standard" });
+                values: new object[] { 102, "EV9zkHMWIr+8VQ7eqzBpDZ/8mb+J0unVgxlb1UV8IdY=", "Standard" });
 
             migrationBuilder.InsertData(
                 table: "ToDoLists",
                 columns: new[] { "ListId", "CreatedDate", "Description", "OwnerID", "UpdatedDate" },
-                values: new object[] { 201, new DateTime(2021, 11, 17, 13, 9, 42, 819, DateTimeKind.Utc).AddTicks(9861), "ListItem1", 101, null });
+                values: new object[] { 201, new DateTime(2021, 11, 19, 11, 35, 35, 417, DateTimeKind.Utc).AddTicks(6196), "ListItem1", 101, null });
 
             migrationBuilder.InsertData(
                 table: "ToDoItems",
                 columns: new[] { "ItemId", "CreatedDate", "Description", "ToDoListID", "UpdatedDate" },
-                values: new object[] { 301, new DateTime(2021, 11, 17, 13, 9, 42, 820, DateTimeKind.Utc).AddTicks(1498), "Item1", 201, null });
+                values: new object[] { 301, new DateTime(2021, 11, 19, 11, 35, 35, 417, DateTimeKind.Utc).AddTicks(7172), "Item1", 201, null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ToDoItems_ToDoListID",
