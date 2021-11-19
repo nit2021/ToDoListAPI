@@ -127,7 +127,7 @@ namespace ToDoListAPI.ToDoAPI.Controllers
         /// <param name="ItemDesc"></param>
         /// <returns>TodoListItem</returns>
         [HttpPost("PostTodoListItem")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -139,7 +139,7 @@ namespace ToDoListAPI.ToDoAPI.Controllers
 
             ToDoList item = await _todoItemService.CreateToDoList(ItemDesc);
             var toDoListDTO = _mapper.Map<ToDoList, ToDoListDTO>(item);
-            return Ok(toDoListDTO);
+            return CreatedAtAction("PostTodoListItem", toDoListDTO);
         }
 
         /// <summary>

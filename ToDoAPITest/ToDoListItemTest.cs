@@ -113,7 +113,7 @@ namespace ToDoAPI.Test
 
             Assert.AreNotEqual(newToDoList.ListId, 0);
             Assert.AreEqual(newToDoList.Description, "newToDoList");
-            Assert.AreEqual((int)HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual((int)HttpStatusCode.Created, response.StatusCode);
         }
 
         [TestMethod]
