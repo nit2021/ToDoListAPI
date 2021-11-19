@@ -6,6 +6,7 @@ using ToDoAPI.DAL;
 using ToDoAPI.Core.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using System;
+using ToDoListAPI.ToDoAPI.DTO;
 
 namespace ToDoListAPI.ToDoAPI.Services
 {
@@ -92,13 +93,13 @@ namespace ToDoListAPI.ToDoAPI.Services
             await _context.SaveChangesAsync();
             return newListItem;
         }
-        public async Task<ToDoItem> CreateTodoItem(int taskId, string ItemDesc)
+        public async Task<ToDoItem> CreateTodoItem(ToDoItemInDTO itemInDTO)
         {
             ToDoItem newitem = new ToDoItem();
-            if (IsToDoList(taskId))
+            if (IsToDoList(itemInDTO.ToDoListID))
             {
-                newitem.ToDoListID = taskId;
-                newitem.Description = ItemDesc;
+                newitem.ToDoListID = itemInDTO.ToDoListID;
+                newitem.Description = itemInDTO.Description;
                 newitem.CreatedDate = DateTime.UtcNow;
                 _context.ToDoItems.Attach(newitem);
                 await _context.SaveChangesAsync();
@@ -121,12 +122,12 @@ namespace ToDoListAPI.ToDoAPI.Services
             return todoListItem;
         }
 
-        public async Task<ToDoItem> UpdateTodoItem(long todoItemId, string ItemDesc)
+        public async Task<ToDoItem> UpdateTodoItem(ToDoItemUpDTO itemUpDTO)
         {
-            var todoItem = await _context.ToDoItems.Where(x => x.ItemId == todoItemId).FirstOrDefaultAsync();
+            var todoItem = await _context.ToDoItems.Where(x => x.ItemId == itemUpDTO.ItemId).FirstOrDefaultAsync();
             if (todoItem != null)
             {
-                todoItem.Description = ItemDesc;
+                todoItem.Description = itemUpDTO.Description;
                 todoItem.UpdatedDate = DateTime.UtcNow;
                 _context.Update(todoItem);
                 await _context.SaveChangesAsync();

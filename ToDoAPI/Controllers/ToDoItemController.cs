@@ -102,19 +102,19 @@ namespace ToDoListAPI.ToDoAPI.Controllers
         /// <param name="id"></param>
         /// <param name="todoItem"></param>
         /// <returns></returns>
-        [HttpPut("{id:long}")]
+        [HttpPut]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(Summary = "Update TodoItem based on given ID")]
-        public async Task<IActionResult> PutTodoItem(long id, [FromQuery] string ItemDesc)
+        public async Task<IActionResult> PutTodoItem([FromBody] ToDoItemUpDTO itemUpDTO)
         {
-            if (ItemDesc == null || id == 0)
+            if (itemUpDTO.Description == null || itemUpDTO.ItemId == 0)
                 return BadRequest();
 
-            var result = await _todoItemService.UpdateTodoItem(id, ItemDesc);
+            var result = await _todoItemService.UpdateTodoItem(itemUpDTO);
 
             if (result == null) return NotFound(); else return NoContent();
         }
@@ -149,19 +149,19 @@ namespace ToDoListAPI.ToDoAPI.Controllers
         /// <param name="ItemDesc"></param>
         /// <returns>TodoItem</returns>
         [HttpPost("PostTodoItem")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(Summary = "Create a TodoItem")]
-        public async Task<ActionResult<ToDoItemDTO>> PostTodoItem([FromQuery] int ToDoListID, [FromQuery] string ItemDesc)
+        public async Task<ActionResult<ToDoItemDTO>> PostTodoItem([FromBody] ToDoItemInDTO itemInDTO)
         {
-            if (ItemDesc == null)
+            if (itemInDTO.Description == null || itemInDTO.ToDoListID == 0)
                 return BadRequest(new { message = "TodoItem Description mandatory" });
 
-            ToDoItem item = await _todoItemService.CreateTodoItem(ToDoListID, ItemDesc);
+            ToDoItem item = await _todoItemService.CreateTodoItem(itemInDTO);
             var toDoItemDTO = _mapper.Map<ToDoItem, ToDoItemDTO>(item);
-            return Ok(toDoItemDTO);
+            return CreatedAtAction("PostTodoItem", toDoItemDTO);
         }
 
         /// <summary>

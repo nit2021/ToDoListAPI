@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.JsonPatch;
 using ToDoAPI.Core.Models;
 using ToDoAPI.Test;
+using ToDoListAPI.ToDoAPI.DTO;
 using ToDoListAPI.ToDoAPI.Services;
 
 namespace ToDoAPI.MockService.Test
@@ -32,11 +33,11 @@ namespace ToDoAPI.MockService.Test
             return await Task.FromResult(newlabel);
         }
 
-        public async Task<ToDoItem> CreateTodoItem(int taskId, string ItemDesc)
+        public async Task<ToDoItem> CreateTodoItem(ToDoItemInDTO itemInDTO)
         {
             if (FailGet)
                 return null;
-            ToDoItem newtoDoItem = new ToDoItem() { ToDoListID = taskId, Description = ItemDesc, ItemId = 15 };
+            ToDoItem newtoDoItem = new ToDoItem() { ToDoListID = itemInDTO.ToDoListID, Description = itemInDTO.Description, ItemId = 15 };
             toDoItems.Add(newtoDoItem);
             return await Task.FromResult(newtoDoItem);
         }
@@ -161,13 +162,13 @@ namespace ToDoAPI.MockService.Test
             return await (PagedList<ToDoList>.ToPagedList(toDoList, op.PageNumber, op.PageSize));
         }
 
-        public async Task<ToDoItem> UpdateTodoItem(long todoItemId, string ItemDesc)
+        public async Task<ToDoItem> UpdateTodoItem(ToDoItemUpDTO itemUpDTO)
         {
-            int index = toDoItems.FindIndex(x => x.ItemId == todoItemId);
+            int index = toDoItems.FindIndex(x => x.ItemId == itemUpDTO.ItemId);
             if (index == -1)
                 return null;
 
-            toDoItems[index].Description = ItemDesc;
+            toDoItems[index].Description = itemUpDTO.Description;
             toDoItems[index].UpdatedDate = DateTime.UtcNow;
             return await Task.FromResult(toDoItems[index]);
         }

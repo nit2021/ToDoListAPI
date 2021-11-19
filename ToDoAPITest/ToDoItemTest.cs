@@ -38,6 +38,15 @@ namespace ToDoAPI.Test
         private IMapper _mapper;
 
         /// <summary>
+        /// The ToDoItemInDTO
+        /// </summary>
+        private ToDoItemInDTO itemInDTO;
+
+        /// <summary>
+        /// The ToDoItemUpDTO
+        /// </summary>
+        private ToDoItemUpDTO itemUpDTO;
+        /// <summary>
         /// Setups this instance.
         /// </summary>
         [TestInitialize]
@@ -126,20 +135,24 @@ namespace ToDoAPI.Test
         [TestMethod]
         public void CreateToDoItem_Returns_HttpOKStatus_With_NewToDoItemData()
         {
-            var response = (ToDoItemController.PostTodoItem(11, "newToDoItem").Result.Result) as ObjectResult;
+            itemInDTO = new ToDoItemInDTO { ToDoListID = 11, Description = "newToDoItem" };
+
+            var response = (ToDoItemController.PostTodoItem(itemInDTO).Result.Result) as ObjectResult;
             var newToDoItem = ((ToDoItemDTO)(response.Value));
 
             Assert.AreNotEqual(newToDoItem.ItemId, 0);
             Assert.AreEqual(newToDoItem.ToDoListID, 11);
             Assert.AreEqual(newToDoItem.Description, "newToDoItem");
-            Assert.AreEqual((int)HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual((int)HttpStatusCode.Created, response.StatusCode);
         }
 
         [TestMethod]
         public void CreateToDoItem_Return_HttpBadRequest_With_NoData()
         {
+            itemInDTO = new ToDoItemInDTO { ToDoListID = 0, Description = null };
             _toDoService.FailGet = true;
-            var response = (ToDoItemController.PostTodoItem(0, null).Result);
+
+            var response = (ToDoItemController.PostTodoItem(itemInDTO).Result);
             var newToDoItem = ((ToDoItemDTO)(response.Value));
 
             Assert.AreEqual(newToDoItem, null);
@@ -149,14 +162,16 @@ namespace ToDoAPI.Test
         [TestMethod]
         public void UpdateToDoItem_Returns_HttpNoContentResult_OnSuccess()
         {
-            var response = (ToDoItemController.PutTodoItem(11, "updateToDoItem").Result);
+            itemUpDTO = new ToDoItemUpDTO { ItemId = 11, Description = "updateToDoItem" };
+            var response = (ToDoItemController.PutTodoItem(itemUpDTO).Result);
             Assert.AreEqual(((int)HttpStatusCode.NoContent), (response as NoContentResult).StatusCode);
         }
 
         [TestMethod]
         public void UpdateToDoItem_Returns_HttpNotFound_OnRecord()
         {
-            var response = (ToDoItemController.PutTodoItem(9999, "updateToDoItem").Result);
+            itemUpDTO = new ToDoItemUpDTO { ItemId = 9999, Description = "updateToDoItem" };
+            var response = (ToDoItemController.PutTodoItem(itemUpDTO).Result);
             Assert.AreEqual(((int)HttpStatusCode.NotFound), (response as NotFoundResult).StatusCode);
         }
 

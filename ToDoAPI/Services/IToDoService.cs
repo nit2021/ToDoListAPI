@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.JsonPatch;
 using ToDoAPI.Core.Models;
+using ToDoListAPI.ToDoAPI.DTO;
 
 namespace ToDoListAPI.ToDoAPI.Services
 {
@@ -18,8 +19,8 @@ namespace ToDoListAPI.ToDoAPI.Services
         Task<ToDoItem> GetTodoItemById(long itemId);
         Task<PagedList<ToDoItem>> SearchTodoItem(string filter, OwnerParameters op);
         Task<PagedList<ToDoItem>> GetTodoItemByTodoListId(long listId, OwnerParameters op);
-        Task<ToDoItem> CreateTodoItem(int taskId, string ItemDesc);
-        Task<ToDoItem> UpdateTodoItem(long todoItemId, string ItemDesc);
+        Task<ToDoItem> CreateTodoItem(ToDoItemInDTO itemInDTO);
+        Task<ToDoItem> UpdateTodoItem(ToDoItemUpDTO itemUpDTO);
         Task<ToDoItem> PatchTodoItem(long id, JsonPatchDocument<ToDoItem> todoItem);
         Task<ToDoItem> DeleteTodoItem(long id);
 
