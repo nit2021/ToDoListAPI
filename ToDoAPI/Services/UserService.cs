@@ -1,6 +1,9 @@
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using ToDoAPI.Core.Models;
 using ToDoAPI.DAL;
+using ToDoListAPI.ToDoAPI.DTO;
 
 namespace ToDoListAPI.ToDoAPI.Services
 {
@@ -16,17 +19,24 @@ namespace ToDoListAPI.ToDoAPI.Services
         {
             _context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 
-            //var count = (from x in _context.User where x.UserName == username && x.Password == password select x).Count();
-            var user = _context.Users.Where(x => x.UserName == username && x.Password == password).FirstOrDefault();
-            if (user == null)
+            var user = _context.Users.Where(x => x.UserName == username).FirstOrDefault();
+            if (password != Cryptography.Decrypt(user.Password))
                 return false;
             else
             {
                 userId = user.UserId;
                 return true;
             }
+        }
 
-            //return username.Equals("admin") && password.Equals("Pa$$WoRd");  
+        public async Task<Users> CreateUser(UsersDTO user)
+        {
+            Users newUser = new Users();
+            newUser.UserName = user.UserName;
+            newUser.Password = Cryptography.Encrypt(user.Password);
+            _context.Users.Attach(newUser);
+            await _context.SaveChangesAsync();
+            return newUser;
         }
     }
 }

@@ -1,7 +1,10 @@
+using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using ToDoAPI.Core.Models;
 using ToDoListAPI.ToDoAPI.DTO;
 using ToDoListAPI.ToDoAPI.Services;
 
@@ -18,33 +21,37 @@ namespace ToDoListAPI.ToDoAPI.Controllers
         private IUserService _userservice;
 
         /// <summary>
+        /// The class mapper
+        /// </summary>
+        private readonly IMapper _mapper;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="LoginController"/> class.
         /// </summary>
         /// <param name="userService">The user service.</param>
-        public LoginController(IUserService userService)
+        public LoginController(IUserService userService, IMapper mapper)
         {
             _userservice = userService;
+            _mapper = mapper;
         }
 
         /// <summary>
-        /// Authenticates the user
+        /// Register new user
         /// </summary>
         /// <returns></returns>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [SwaggerOperation(Summary = "Login User")]
-        [HttpGet("/api/User")]
-        public ActionResult<UsersDTO> AuthenticateUser(string username, string password)
+        [SwaggerOperation(Summary = "Register new User")]
+        [HttpPost]
+        public async Task<ActionResult> RegisterUser([FromBody] UsersDTO user)
         {
-            if (username == null || password == null)
+            if (user.UserName == null || user.Password == null)
                 return BadRequest();
-            var IsValid = _userservice.ValidateCredentials(username, password);
-            if (IsValid)
-                return Ok();
-            else
-                return Unauthorized();
+            var newUser = await _userservice.CreateUser(user);
+            var newUserDTO = _mapper.Map<Users, UsersDTO>(newUser);
+            return Ok();
         }
 
     }

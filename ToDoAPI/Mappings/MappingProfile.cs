@@ -12,10 +12,13 @@ namespace ToDoListAPI.ToDoAPI.Mappings
             CreateMap<ToDoItem, ToDoItemDTO>();
             CreateMap<ToDoList, ToDoListDTO>();
             CreateMap<Label, LabelDTO>();
+            CreateMap<Users, UsersDTO>();
+
             // DTO to Model
             CreateMap<ToDoItemDTO, ToDoItem>();
             CreateMap<ToDoListDTO, ToDoList>();
             CreateMap<LabelDTO, Label>();
+            CreateMap<UsersDTO, Users>();
         }
     }
 }
