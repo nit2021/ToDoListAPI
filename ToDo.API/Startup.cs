@@ -96,7 +96,6 @@ namespace ToDoListAPI.ToDoAPI
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("../swagger/v1/swagger.json", "ToDoList Api v1");
-                c.RoutePrefix=string.Empty;
             });
             app.UsePlayground(new PlaygroundOptions
             {
