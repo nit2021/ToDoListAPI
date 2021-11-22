@@ -20,15 +20,15 @@ namespace ToDoAPI.MockService.Test
         public MockToDoService()
         {
         }
-        public async Task<Label> CreateLabel(int ToDoItemID, int ToDoListID, string LabelDesc)
+        public async Task<Label> CreateLabel(LabelInDTO labelInDTO)
         {
             if (FailGet)
                 return null;
             Label newlabel;
-            if (ToDoItemID != 0)
-                newlabel = new Label() { ToDoItemID = ToDoItemID, Description = LabelDesc, LabelId = 5 };
+            if (labelInDTO.ToDoItemID != 0)
+                newlabel = new Label() { ToDoItemID = labelInDTO.ToDoItemID, Description = labelInDTO.Description, LabelId = 5 };
             else
-                newlabel = new Label() { ToDoListID = ToDoListID, Description = LabelDesc, LabelId = 5 };
+                newlabel = new Label() { ToDoListID = labelInDTO.ToDoListID, Description = labelInDTO.Description, LabelId = 5 };
             labels.Add(newlabel);
             return await Task.FromResult(newlabel);
         }
@@ -92,6 +92,22 @@ namespace ToDoAPI.MockService.Test
             if (FailGet)
                 return null;
             var labellist = new TestAsyncEnumerable<Label>(labels.AsQueryable());
+            return await (PagedList<Label>.ToPagedList(labellist, op.PageNumber, op.PageSize));
+        }
+
+        public async Task<PagedList<Label>> GetAllLabelByToDoListID(int toDoListID, OwnerParameters op)
+        {
+            if (FailGet)
+                return null;
+            var labellist = new TestAsyncEnumerable<Label>(labels.Where(x => x.ToDoListID == toDoListID).AsQueryable());
+            return await (PagedList<Label>.ToPagedList(labellist, op.PageNumber, op.PageSize));
+        }
+
+        public async Task<PagedList<Label>> GetAllLabelByToDoItemID(int toDoItemID, OwnerParameters op)
+        {
+            if (FailGet)
+                return null;
+            var labellist = new TestAsyncEnumerable<Label>(labels.Where(x => x.ToDoItemID == toDoItemID).AsQueryable());
             return await (PagedList<Label>.ToPagedList(labellist, op.PageNumber, op.PageSize));
         }
 

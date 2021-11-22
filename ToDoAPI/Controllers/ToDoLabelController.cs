@@ -36,18 +36,18 @@ namespace ToDoListAPI.ToDoAPI.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(Summary = "Creates a Label for a given Item Id")]
-        public async Task<ActionResult<LabelDTO>> PostLabel([FromQuery] int ToDoItemID, [FromQuery] int ToDoListID, [FromQuery] string LabelDesc)
+        public async Task<ActionResult<LabelDTO>> PostLabel([FromBody] LabelInDTO labelInDTO)
         {
-            if (LabelDesc == null || ((ToDoItemID == 0) && (ToDoListID == 0)))
+            if (labelInDTO.Description == null || ((labelInDTO.ToDoItemID == 0) && (labelInDTO.ToDoListID == 0)))
                 return BadRequest(new { message = "TodoItem Description and any of (ToDoItemID or ToDoListID) is mandatory" });
 
-            Label label = await _todoItemService.CreateLabel(ToDoItemID, ToDoListID, LabelDesc);
+            Label label = await _todoItemService.CreateLabel(labelInDTO);
             if (label == null)
                 return BadRequest();
             else
             {
                 var labelsDTO = _mapper.Map<Label, LabelDTO>(label);
-                return Ok(labelsDTO);
+                return CreatedAtAction("PostLabel", labelsDTO);
             }
         }
 
@@ -56,7 +56,7 @@ namespace ToDoListAPI.ToDoAPI.Controllers
         /// </summary>
         /// <param></param>
         /// <returns>List of Label</returns>
-        [HttpGet]
+        [HttpGet("GetTodoLabel")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -65,6 +65,50 @@ namespace ToDoListAPI.ToDoAPI.Controllers
         public async Task<ActionResult<IEnumerable<LabelDTO>>> GetTodoLabel([FromQuery] OwnerParameters options)
         {
             var todoLabels = await _todoItemService.GetAllLabel(options);
+            if (todoLabels == null)
+            {
+                return NotFound(new { message = "TodoItem does not exists" });
+            }
+            var labelsDTO = _mapper.Map<IEnumerable<Label>, IEnumerable<LabelDTO>>(todoLabels);
+            return Ok(labelsDTO);
+        }
+
+        /// <summary>
+        /// Method to get List of All Label by ToDoListID
+        /// </summary>
+        /// <param></param>
+        /// <returns>List of Label by ToDoListID</returns>
+        [HttpGet("{ToDoListID:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerOperation(Summary = "Get List of All Label by ToDoListID")]
+        public async Task<ActionResult<IEnumerable<LabelDTO>>> GetLabelByToDoListID(int ToDoListID, [FromQuery] OwnerParameters options)
+        {
+            var todoLabels = await _todoItemService.GetAllLabelByToDoListID(ToDoListID, options);
+            if (todoLabels == null)
+            {
+                return NotFound(new { message = "TodoItem does not exists" });
+            }
+            var labelsDTO = _mapper.Map<IEnumerable<Label>, IEnumerable<LabelDTO>>(todoLabels);
+            return Ok(labelsDTO);
+        }
+
+        /// <summary>
+        /// Method to get List of All Label by ToDoItemID
+        /// </summary>
+        /// <param></param>
+        /// <returns>List of Label by ToDoItemID</returns>
+        [HttpGet("GetLabelByToDoItemID")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerOperation(Summary = "Get List of All Label by ToDoItemID")]
+        public async Task<ActionResult<IEnumerable<LabelDTO>>> GetLabelByToDoItemID([FromQuery] int ToDoItemID, [FromQuery] OwnerParameters options)
+        {
+            var todoLabels = await _todoItemService.GetAllLabelByToDoItemID(ToDoItemID, options);
             if (todoLabels == null)
             {
                 return NotFound(new { message = "TodoItem does not exists" });

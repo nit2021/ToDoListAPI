@@ -19,7 +19,7 @@ namespace ToDoListAPI.ToDoAPI.GraphQL
         public async Task<ToDoItem> createItem(ToDoItemInDTO itemInDTO) => await _toDoService.CreateTodoItem(itemInDTO);
         public async Task<ToDoItem> updateItem(ToDoItemUpDTO itemUpDTO) => await _toDoService.UpdateTodoItem(itemUpDTO);
         public async Task<ToDoItem> deleteitem(int id) => await _toDoService.DeleteTodoItem(id);
-        public async Task<Label> createlabel(int ToDoItemID, int ToDoListID, string labelDesc) => await _toDoService.CreateLabel(ToDoItemID, ToDoListID, labelDesc);
+        public async Task<Label> createlabel(LabelInDTO labelInDTO) => await _toDoService.CreateLabel(labelInDTO);
         public async Task<Label> deletelabel(int id) => await _toDoService.DeleteLabel(id);
 
     }

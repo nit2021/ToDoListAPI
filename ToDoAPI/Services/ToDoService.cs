@@ -43,6 +43,25 @@ namespace ToDoListAPI.ToDoAPI.Services
                          select x;
             return await (PagedList<Label>.ToPagedList(result, op.PageNumber, op.PageSize));
         }
+
+        public async Task<PagedList<Label>> GetAllLabelByToDoListID(int toDoListID, OwnerParameters op)
+        {
+            var result = from x in _context.Labels
+                         join z in _context.ToDoLists on x.ToDoListID equals z.ListId
+                         where x.ToDoListID == toDoListID && z.OwnerID == _userService.userId
+                         select x;
+            return await (PagedList<Label>.ToPagedList(result, op.PageNumber, op.PageSize));
+        }
+
+        public async Task<PagedList<Label>> GetAllLabelByToDoItemID(int toDoItemID, OwnerParameters op)
+        {
+            var result = from x in _context.Labels
+                         join y in _context.ToDoItems on x.ToDoItemID equals y.ItemId
+                         join z in _context.ToDoLists on y.ToDoListID equals z.ListId
+                         where x.ToDoItemID == toDoItemID && z.OwnerID == _userService.userId
+                         select x;
+            return await (PagedList<Label>.ToPagedList(result, op.PageNumber, op.PageSize));
+        }
         public async Task<ToDoList> DeleteTodoList(long id)
         {
             var toDoListItem = await _context.ToDoLists.Where(x => x.ListId == id).FirstOrDefaultAsync();
@@ -148,14 +167,14 @@ namespace ToDoListAPI.ToDoAPI.Services
             return item;
         }
 
-        public async Task<Label> CreateLabel(int ToDoItemID, int ToDoListID, string LabelDesc)
+        public async Task<Label> CreateLabel(LabelInDTO labelInDTO)
         {
             Label newLabel = new Label();
-            newLabel.Description = LabelDesc;
-            if (IsToDoItem(ToDoItemID))
-                newLabel.ToDoItemID = ToDoItemID;
-            if (IsToDoList(ToDoListID))
-                newLabel.ToDoListID = ToDoListID;
+            newLabel.Description = labelInDTO.Description;
+            if (IsToDoItem(labelInDTO.ToDoItemID))
+                newLabel.ToDoItemID = labelInDTO.ToDoItemID;
+            if (IsToDoList(labelInDTO.ToDoListID))
+                newLabel.ToDoListID = labelInDTO.ToDoListID;
             if (newLabel.ToDoItemID == null && newLabel.ToDoListID == null)
                 return null;
             _context.Labels.Attach(newLabel);
