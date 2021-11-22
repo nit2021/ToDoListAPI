@@ -162,6 +162,17 @@ namespace ToDoAPI.MockService.Test
             return await Task.FromResult(item);
         }
 
+        public async Task<ToDoList> PatchTodoList(long id, JsonPatchDocument<ToDoList> todoListItem)
+        {
+            int index = toDoLists.FindIndex(x => x.ListId == id);
+            if (index == -1)
+                return null;
+            ToDoList listItem = toDoLists[index];
+            listItem.UpdatedDate = DateTime.UtcNow;
+            todoListItem.ApplyTo(listItem);
+            return await Task.FromResult(listItem);
+        }
+
         public async Task<PagedList<ToDoItem>> SearchTodoItem(string filter, OwnerParameters op)
         {
             if (FailGet)

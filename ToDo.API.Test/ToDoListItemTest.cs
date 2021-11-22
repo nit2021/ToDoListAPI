@@ -10,6 +10,7 @@ using ToDoAPI.MockService.Test;
 using AutoMapper;
 using ToDoListAPI.ToDoAPI.Mappings;
 using ToDoListAPI.ToDoAPI.DTO;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace ToDoAPI.Test
 {
@@ -142,6 +143,25 @@ namespace ToDoAPI.Test
             var response = (toDoListController.PutTodoListItem(toDoListUpDTO).Result);
             Assert.AreEqual(((int)HttpStatusCode.NotFound), (response as NotFoundResult).StatusCode);
         }
+
+        [TestMethod]
+        public void PatchToDoList_Returns_HttpNoContentResult_OnSuccess()
+        {
+            JsonPatchDocument<ToDoList> toDoList = new JsonPatchDocument<ToDoList>();
+            toDoList.Replace(r => r.Description, "PatchValue");
+            var response = (toDoListController.JsonPatchTodoListItem(21, toDoList)).Result;
+            Assert.AreEqual(((int)HttpStatusCode.OK), (response as OkObjectResult).StatusCode);
+        }
+
+        [TestMethod]
+        public void PatchToDoList_Returns_HttpNotFound_OnRecord()
+        {
+            JsonPatchDocument<ToDoList> toDoList = new JsonPatchDocument<ToDoList>();
+            toDoList.Replace(r => r.Description, "PatchValue");
+            var response = (toDoListController.JsonPatchTodoListItem(9999, toDoList).Result);
+            Assert.AreEqual(((int)HttpStatusCode.BadRequest), (response as BadRequestResult).StatusCode);
+        }
+
 
         [TestMethod]
         public void DeleteToDoList_OnSuccess_Returns_NoContentHttpResult()
