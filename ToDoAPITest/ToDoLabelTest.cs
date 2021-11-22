@@ -80,20 +80,22 @@ namespace ToDoAPI.Test
         [TestMethod]
         public void CreateLabel_Returns_NewLabelData()
         {
-            var response = (labelController.PostLabel(11, 0, "newlabel").Result.Result) as ObjectResult;
+            LabelInDTO labelInDTO = new LabelInDTO() { Description = "newlabel", ToDoItemID = 11, ToDoListID = 0 };
+            var response = (labelController.PostLabel(labelInDTO).Result.Result) as ObjectResult;
             var newLabel = ((LabelDTO)(response.Value));
 
             Assert.AreNotEqual(newLabel.LabelId, 0);
             Assert.AreEqual(newLabel.ToDoItemID, 11);
             Assert.AreEqual(newLabel.Description, "newlabel");
-            Assert.AreEqual((int)HttpStatusCode.OK, (response as ObjectResult).StatusCode);
+            Assert.AreEqual((int)HttpStatusCode.Created, (response as ObjectResult).StatusCode);
         }
 
         [TestMethod]
         public void CreateLabel_Should_Returns_With_HttpBadRequest_NoData()
         {
+            LabelInDTO labelInDTO = new LabelInDTO() { Description = null, ToDoItemID = 0, ToDoListID = 0 };
             _toDoService.FailGet = true;
-            var response = (labelController.PostLabel(0, 0, null).Result);
+            var response = (labelController.PostLabel(labelInDTO).Result);
             var newLabel = ((LabelDTO)(response.Value));
 
             Assert.AreEqual(newLabel, null);
