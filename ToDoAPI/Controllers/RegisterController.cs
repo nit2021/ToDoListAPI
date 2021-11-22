@@ -14,7 +14,7 @@ namespace ToDoListAPI.ToDoAPI.Controllers
     [Authorize]
     [ApiController]
     [Route("[controller]")]
-    public class LoginController : ControllerBase
+    public class RegisterController : ControllerBase
     {
         /// <summary>
         /// The user service
@@ -27,10 +27,10 @@ namespace ToDoListAPI.ToDoAPI.Controllers
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LoginController"/> class.
+        /// Initializes a new instance of the <see cref="RegisterController"/> class.
         /// </summary>
         /// <param name="userService">The user service.</param>
-        public LoginController(IUserService userService, IMapper mapper)
+        public RegisterController(IUserService userService, IMapper mapper)
         {
             _userservice = userService;
             _mapper = mapper;

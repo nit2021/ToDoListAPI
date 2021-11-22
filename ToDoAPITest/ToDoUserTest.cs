@@ -22,7 +22,7 @@ namespace ToDoAPI.Test
         /// <summary>
         /// The ToDoList controller
         /// </summary>
-        private LoginController loginController;
+        private RegisterController loginController;
 
         /// <summary>
         /// The IMapper
@@ -46,7 +46,7 @@ namespace ToDoAPI.Test
                 new Users { UserId = 201, UserName = "Admin", Password = "Pa$$w0rd" },
                 new Users { UserId = 202, UserName = "Standard", Password = "Pa$$w0rd2" },
             };
-            loginController = new LoginController(_UserService, _mapper);
+            loginController = new RegisterController(_UserService, _mapper);
         }
 
         // / <summary>
