@@ -141,7 +141,7 @@ namespace ToDoListAPI.ToDoAPI.Controllers
 
             ToDoList item = await _todoItemService.CreateToDoList(ItemDesc);
             var toDoListDTO = _mapper.Map<ToDoList, ToDoListDTO>(item);
-            return CreatedAtAction("PostTodoListItem", toDoListDTO);
+            return CreatedAtAction(nameof(GetTodoListItem), new { Id = toDoListDTO.ListId }, toDoListDTO);
         }
 
         /// <summary>

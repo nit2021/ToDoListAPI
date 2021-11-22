@@ -49,7 +49,10 @@ namespace ToDoListAPI.ToDoAPI.Controllers
             else
             {
                 var labelsDTO = _mapper.Map<Label, LabelDTO>(label);
-                return CreatedAtAction("PostLabel", labelsDTO);
+                if (labelsDTO.ToDoListID != 0)
+                    return CreatedAtAction(nameof(GetLabelByToDoListID), new { Id = labelsDTO.ToDoListID }, labelsDTO);
+                else
+                    return CreatedAtAction(nameof(GetLabelByToDoItemID), new { Id = labelsDTO.ToDoItemID }, labelsDTO);
             }
         }
 
@@ -80,7 +83,7 @@ namespace ToDoListAPI.ToDoAPI.Controllers
         /// </summary>
         /// <param></param>
         /// <returns>List of Label by ToDoListID</returns>
-        [HttpGet("{ToDoListID:int}")]
+        [HttpGet("GetLabelByToDoListID")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
