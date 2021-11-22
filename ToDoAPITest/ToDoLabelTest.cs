@@ -49,10 +49,10 @@ namespace ToDoAPI.Test
             _toDoService = new MockToDoService();
             _toDoService.labels = new List<Label>()
             {
-                new Label { LabelId = 1, Description = "Label1", ToDoItemID = 11 },
-                new Label { LabelId = 2, Description = "Label2", ToDoItemID = 11 },
-                new Label { LabelId = 3, Description = "Label3", ToDoItemID = 12 },
-                new Label { LabelId = 4, Description = "Label4", ToDoItemID = 12 }
+                new Label { LabelId = 1, Description = "Label1", ToDoItemID =  0, ToDoListID = 21},
+                new Label { LabelId = 2, Description = "Label2", ToDoItemID = 11 ,ToDoListID = 21},
+                new Label { LabelId = 3, Description = "Label3", ToDoItemID = 11 ,ToDoListID = 0},
+                new Label { LabelId = 4, Description = "Label4", ToDoItemID = 0 ,ToDoListID = 21}
             };
             labelController = new ToDoLabelController(_toDoService, _mapper);
         }
@@ -75,6 +75,46 @@ namespace ToDoAPI.Test
             var labels = ((IEnumerable<LabelDTO>)(response.Value)).ToList();
             Assert.AreEqual((int)HttpStatusCode.OK, response.StatusCode);
             Assert.AreEqual(labels.Count, 4);
+        }
+
+        /// <summary>
+        /// Gets the label by ToDoListID valid data.
+        /// </summary>
+        [TestMethod]
+        public void GetLabelByToDoListID_Should_ThroughException()
+        {
+            _toDoService.FailGet = true;
+            var response = (labelController.GetLabelByToDoListID(0, op).Result.Result) as ObjectResult;
+            Assert.AreEqual((int)HttpStatusCode.NotFound, response.StatusCode);
+        }
+
+        [TestMethod]
+        public void GetLabelByToDoListID_Should_Return_HttpOkResult_With_Label()
+        {
+            var response = (labelController.GetLabelByToDoListID(21, op).Result.Result) as ObjectResult;
+            var labels = ((IEnumerable<LabelDTO>)(response.Value)).ToList();
+            Assert.AreEqual((int)HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(labels.Count, 3);
+        }
+
+        /// <summary>
+        /// Gets the label by ToDoItemID valid data.
+        /// </summary>
+        [TestMethod]
+        public void GetLabelByToDoItemID_Should_ThroughException()
+        {
+            _toDoService.FailGet = true;
+            var response = (labelController.GetLabelByToDoItemID(0, op).Result.Result) as ObjectResult;
+            Assert.AreEqual((int)HttpStatusCode.NotFound, response.StatusCode);
+        }
+
+        [TestMethod]
+        public void GetLabelByToDoItemID_Should_Return_HttpOkResult_With_Label()
+        {
+            var response = (labelController.GetLabelByToDoItemID(11, op).Result.Result) as ObjectResult;
+            var labels = ((IEnumerable<LabelDTO>)(response.Value)).ToList();
+            Assert.AreEqual((int)HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(labels.Count, 2);
         }
 
         [TestMethod]
