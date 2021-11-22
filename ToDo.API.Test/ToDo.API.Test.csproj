@@ -14,8 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ToDoAPI\ToDoAPI.csproj" />
-    <ProjectReference Include="..\ToDoCore\ToDoCore.csproj" />
+    <ProjectReference Include="..\ToDo.API\ToDo.API.csproj" />
+    <ProjectReference Include="..\ToDo.Core\ToDo.Core.csproj" />
   </ItemGroup>
 
 </Project>
