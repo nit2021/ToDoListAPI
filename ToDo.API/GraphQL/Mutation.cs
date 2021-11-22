@@ -13,9 +13,9 @@ namespace ToDoListAPI.ToDoAPI.GraphQL
             _toDoService = toDoService;
         }
 
-        public async Task<ToDoList> createListItem(string itemDesc) => await _toDoService.CreateToDoList(itemDesc);
-        public async Task<ToDoList> updateListItem(ToDoListUpDTO toDoListUpDTO) => await _toDoService.UpdateTodoList(toDoListUpDTO);
-        public async Task<ToDoList> deleteListItem(int id) => await _toDoService.DeleteTodoList(id);
+        public async Task<ToDoList> createList(string itemDesc) => await _toDoService.CreateToDoList(itemDesc);
+        public async Task<ToDoList> updateList(ToDoListUpDTO toDoListUpDTO) => await _toDoService.UpdateTodoList(toDoListUpDTO);
+        public async Task<ToDoList> deleteList(int id) => await _toDoService.DeleteTodoList(id);
         public async Task<ToDoItem> createItem(ToDoItemInDTO itemInDTO) => await _toDoService.CreateTodoItem(itemInDTO);
         public async Task<ToDoItem> updateItem(ToDoItemUpDTO itemUpDTO) => await _toDoService.UpdateTodoItem(itemUpDTO);
         public async Task<ToDoItem> deleteitem(int id) => await _toDoService.DeleteTodoItem(id);
