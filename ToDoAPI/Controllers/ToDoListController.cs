@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -103,21 +104,22 @@ namespace ToDoListAPI.ToDoAPI.Controllers
         /// <param name="id"></param>
         /// <param name="todoListDescription"></param>
         /// <returns></returns>
-        [HttpPut("{id:long}")]
+        [HttpPut]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Consumes(MediaTypeNames.Application.Json)]
         [SwaggerOperation(Summary = "Update TodoList Item based on given ID")]
-        public async Task<IActionResult> PutTodoListItem(long id, [FromQuery] string ItemDesc)
+        public async Task<IActionResult> PutTodoListItem(ToDoListUpDTO toDoList)
         {
-            if (ItemDesc == null || id == 0)
+            if (toDoList.Description == null || toDoList.ListId == 0)
             {
                 return BadRequest();
             }
 
-            var result = await _todoItemService.UpdateTodoList(id, ItemDesc);
+            var result = await _todoItemService.UpdateTodoList(toDoList);
             if (result == null) return NotFound(); else return NoContent();
         }
 

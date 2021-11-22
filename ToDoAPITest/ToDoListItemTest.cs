@@ -130,14 +130,16 @@ namespace ToDoAPI.Test
         [TestMethod]
         public void UpdateToDoList_Returns_HttpNoContentResult_OnSuccess()
         {
-            var response = (toDoListController.PutTodoListItem(21, "updateToDoList").Result);
+            ToDoListUpDTO toDoListUpDTO = new ToDoListUpDTO() { ListId = 21, Description = "updateToDoList" };
+            var response = (toDoListController.PutTodoListItem(toDoListUpDTO).Result);
             Assert.AreEqual(((int)HttpStatusCode.NoContent), (response as NoContentResult).StatusCode);
         }
 
         [TestMethod]
         public void UpdateToDoList_Returns_HttpNotFound_OnRecord()
         {
-            var response = (toDoListController.PutTodoListItem(9999, "updateToDoList").Result);
+            ToDoListUpDTO toDoListUpDTO = new ToDoListUpDTO() { ListId = 9999, Description = "updateToDoList" };
+            var response = (toDoListController.PutTodoListItem(toDoListUpDTO).Result);
             Assert.AreEqual(((int)HttpStatusCode.NotFound), (response as NotFoundResult).StatusCode);
         }
 

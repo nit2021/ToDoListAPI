@@ -189,13 +189,13 @@ namespace ToDoAPI.MockService.Test
             return await Task.FromResult(toDoItems[index]);
         }
 
-        public async Task<ToDoList> UpdateTodoList(long todoListId, string listItemDesc)
+        public async Task<ToDoList> UpdateTodoList(ToDoListUpDTO toDoListUpDTO)
         {
-            int index = toDoLists.FindIndex(x => x.ListId == todoListId);
+            int index = toDoLists.FindIndex(x => x.ListId == toDoListUpDTO.ListId);
             if (index == -1)
                 return null;
 
-            toDoLists[index].Description = listItemDesc;
+            toDoLists[index].Description = toDoListUpDTO.Description;
             toDoLists[index].UpdatedDate = DateTime.UtcNow;
             return await Task.FromResult(toDoLists[index]);
         }

@@ -128,12 +128,12 @@ namespace ToDoListAPI.ToDoAPI.Services
                 return null;
         }
 
-        public async Task<ToDoList> UpdateTodoList(long todoListId, string listItemDesc)
+        public async Task<ToDoList> UpdateTodoList(ToDoListUpDTO toDoListUpDTO)
         {
-            var todoListItem = await _context.ToDoLists.Where(x => x.ListId == todoListId).FirstOrDefaultAsync();
+            var todoListItem = await _context.ToDoLists.Where(x => x.ListId == toDoListUpDTO.ListId).FirstOrDefaultAsync();
             if (todoListItem != null)
             {
-                todoListItem.Description = listItemDesc;
+                todoListItem.Description = toDoListUpDTO.Description;
                 todoListItem.UpdatedDate = DateTime.UtcNow;
                 _context.ToDoLists.Update(todoListItem);
                 await _context.SaveChangesAsync();
