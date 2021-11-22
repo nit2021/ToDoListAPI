@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -35,6 +36,7 @@ namespace ToDoListAPI.ToDoAPI.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Consumes(MediaTypeNames.Application.Json)]
         [SwaggerOperation(Summary = "Creates a Label for a given Item Id")]
         public async Task<ActionResult<LabelDTO>> PostLabel([FromBody] LabelInDTO labelInDTO)
         {

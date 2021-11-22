@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -108,6 +109,7 @@ namespace ToDoListAPI.ToDoAPI.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Consumes(MediaTypeNames.Application.Json)]
         [SwaggerOperation(Summary = "Update TodoItem based on given ID")]
         public async Task<IActionResult> PutTodoItem([FromBody] ToDoItemUpDTO itemUpDTO)
         {
@@ -130,6 +132,7 @@ namespace ToDoListAPI.ToDoAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
+        [Consumes(MediaTypeNames.Application.Json)]
         [SwaggerOperation(Summary = "Patch TodoItem based on given ID")]
         public async Task<IActionResult> JsonPatchTodoItem(long itemId, [FromBody] JsonPatchDocument<ToDoItem> todoItem)
         {
@@ -153,6 +156,7 @@ namespace ToDoListAPI.ToDoAPI.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Consumes(MediaTypeNames.Application.Json)]
         [SwaggerOperation(Summary = "Create a TodoItem")]
         public async Task<ActionResult<ToDoItemDTO>> PostTodoItem([FromBody] ToDoItemInDTO itemInDTO)
         {

@@ -40,7 +40,7 @@ namespace ToDoListAPI.ToDoAPI
             })
             );
 
-            services.AddControllers().AddNewtonsoftJson();
+            services.AddControllers(p => p.RespectBrowserAcceptHeader = true).AddNewtonsoftJson();
 
             #region ConfigureSwagger
             services.AddSwaggerGen(options =>
