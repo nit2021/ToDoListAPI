@@ -44,7 +44,7 @@ namespace ToDoListAPI.ToDoAPI.BasicAuth
                 var password = credentials.LastOrDefault();
 
                 if (!_userService.ValidateCredentials(username, password))
-                    return AuthenticateResult.Fail($"Authentication failed: Invalid credentials");
+                    return await Task.FromResult(AuthenticateResult.Fail($"Authentication failed: Invalid credentials"));
             }
             catch (Exception ex)
             {
