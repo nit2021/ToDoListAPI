@@ -27,19 +27,19 @@ https://github.com/nit2021/ToDoListAPI.git
 
 DB Setup
 --------
-5. Run below command interminal to set path
+1. Run below command interminal to set path
 
 	"cd .\ToDoAPI"
 	
-6. Run below below in terminal to add ef
+2. Run below below in terminal to add ef
 	
 	"dotnet tool install --global dotnet-ef"
 
-7. Run command below in terminal to create migration
+3. Run command below in terminal to create migration
 	
 	"dotnet ef --startup-project ./ToDo.API.csproj migrations add NewMigrationToDo --context ToDoContext --output-dir Migrations --project ../ToDo.DAL/ToDo.DAL.csproj"
 	
-8. Run command below in terminal to create database in SQL Express
+4. Run command below in terminal to create database in SQL Express
 	
 	"dotnet ef database update"
 
@@ -67,30 +67,37 @@ C) Run command below in terminal to update database in SQL Express
 Hosting Application  
 -------------------
 	
-9. Run command below to host application
+1. Run command below to host application
 	
 	"dotnet run"
 	
 Using Swagger
 -------------
 	
-10. Go to https://localhost:5001/swagger/index.html 
-11. Click Authorize button, fill username and password in popup window. 
-12. Click login then close credential pop up windows
-13. Execute respective endpoint after clicking Try it out then execute.
+1. Go to https://localhost:5001/swagger/index.html 
+2. Click Authorize button, fill username and password in popup window. 
+3. Click login then close credential pop up windows
+4. Execute respective endpoint after clicking Try it out then execute.
 
 You can set different application url in launchsetting.json in case you are already using some port or want to provide different port.
 	
 Using GraphQL
 -------------
-10. Go to https://localhost:5001/graphql/
-11. Add below Authorization to Http Headers for user "Admin"
+1. Go to https://localhost:5001/graphql/
+2. Add below Authorization to Http Headers 
+	For user "Admin"
 
 	{
     		"Authorization": "Basic QWRtaW46UGEkJHcwcmQ="
 	}
 	
-12. Write quey or mutation command using schema in schema window for respective function. For example for item creation -
+	For user "Standard"
+
+	{
+    		"Authorization": "Basic U3RhbmRhcmQ6UGEkJHcwcmQy"
+	}
+	
+3. Write quey or mutation command using schema in schema window for respective function. For example for item creation -
 	
 	mutation
 	{
@@ -102,4 +109,4 @@ Using GraphQL
 		    createdDate
 	    }
 	}
-13. Click on execute button and run the command. 
+4. Click on execute button and run the command. 
