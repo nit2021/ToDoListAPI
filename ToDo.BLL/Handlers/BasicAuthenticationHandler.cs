@@ -37,14 +37,14 @@ namespace ToDoListAPI.ToDoBLL.Handlers
             {
                 var header = Request.Headers.FirstOrDefault(h => h.Key.Equals("Authorization"));
                 if (header.Value.Count == 0)
-                    return AuthenticateResult.Fail($"Authentication failed: Invalid credentials");
+                    return AuthenticateResult.Fail(Constants.Invalid);
                 var authHeader = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]);
                 var credentials = Encoding.UTF8.GetString(Convert.FromBase64String(authHeader.Parameter)).Split(':');
                 username = credentials.FirstOrDefault();
                 var password = credentials.LastOrDefault();
 
                 if (!_userService.ValidateCredentials(username, password))
-                    return await Task.FromResult(AuthenticateResult.Fail($"Authentication failed: Invalid credentials"));
+                    return await Task.FromResult(AuthenticateResult.Fail(Constants.Invalid));
             }
             catch (Exception ex)
             {
