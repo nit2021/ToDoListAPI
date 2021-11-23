@@ -1,25 +1,23 @@
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 
-namespace ToDoListAPI.ToDoAPI.DTO
+namespace ToDoListAPI.ToDoBLL.DTO
 {
     [DataContract]
-    public class ToDoItemDTO
+    public class ToDoListDTO
     {
         [DataMember]
-        public int ItemId { get; set; }
+        public int ListId { get; set; }
 
         [DataMember]
         public string Description { get; set; }
 
         [DataMember]
-        public int ToDoListID { get; set; }
+        public int OwnerID { get; set; }
 
         [DataMember]
         public DateTime CreatedDate { get; set; }
-        
+
         [DataMember]
         public DateTime? UpdatedDate { get; set; }
 

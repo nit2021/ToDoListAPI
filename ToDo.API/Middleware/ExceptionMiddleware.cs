@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using ToDoListAPI.ToDoAPI.Exceptions;
+using ToDoAPI.Core.Exceptions;
 
 namespace ToDoListAPI.ToDoAPI.Middleware
 {

@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToDoAPI.Core.Models;
 using ToDoAPITest.MockService.Test;
 using ToDoListAPI.ToDoAPI.Controllers;
-using ToDoListAPI.ToDoAPI.DTO;
+using ToDoListAPI.ToDoBLL.DTO;
 using ToDoListAPI.ToDoAPI.Mappings;
 
 namespace ToDoAPI.Test

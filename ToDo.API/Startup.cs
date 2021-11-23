@@ -1,4 +1,3 @@
-using ToDoListAPI.ToDoAPI.BasicAuth;
 using HotChocolate;
 using HotChocolate.AspNetCore;
 using HotChocolate.AspNetCore.Playground;
@@ -12,9 +11,10 @@ using Microsoft.OpenApi.Models;
 using ToDoAPI.DAL;
 using ToDoListAPI.ToDoAPI.GraphQL;
 using ToDoListAPI.ToDoAPI.Middleware;
-using ToDoListAPI.ToDoAPI.Services;
-using ToDoAPI.Core.Models;
+using ToDoListAPI.ToDoBLL.Services;
 using AutoMapper;
+using ToDoListAPI.ToDoBLL.Handlers;
+using ToDoAPI.Core.Utilities;
 
 namespace ToDoListAPI.ToDoAPI
 {

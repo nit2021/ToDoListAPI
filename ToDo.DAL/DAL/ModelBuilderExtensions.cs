@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ToDoAPI.Core.Models;
+using ToDoAPI.Core.Utilities;
+
 namespace ToDoAPI.DAL
 {
     public static class ModelBuilderExtensions

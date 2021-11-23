@@ -1,4 +1,4 @@
-namespace ToDoAPI.Core.Models
+namespace ToDoAPI.Core.Utilities
 {
     public class OwnerParameters
     {

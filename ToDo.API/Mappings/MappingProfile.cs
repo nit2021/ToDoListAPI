@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using AutoMapper;
 using ToDoAPI.Core.Models;
-using ToDoListAPI.ToDoAPI.DTO;
+using ToDoListAPI.ToDoBLL.DTO;
 namespace ToDoListAPI.ToDoAPI.Mappings
 {
     public class MappingProfile:Profile

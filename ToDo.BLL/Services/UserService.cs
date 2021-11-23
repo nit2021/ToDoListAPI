@@ -2,10 +2,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ToDoAPI.Core.Models;
+using ToDoAPI.Core.Utilities;
 using ToDoAPI.DAL;
-using ToDoListAPI.ToDoAPI.DTO;
+using ToDoListAPI.ToDoBLL.DTO;
 
-namespace ToDoListAPI.ToDoAPI.Services
+namespace ToDoListAPI.ToDoBLL.Services
 {
     public class UserService : IUserService
     {

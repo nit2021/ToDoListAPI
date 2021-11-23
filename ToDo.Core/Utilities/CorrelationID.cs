@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ToDoAPI.Core.Models
+namespace ToDoAPI.Core.Utilities
 {
     public class CorrelationID
     {

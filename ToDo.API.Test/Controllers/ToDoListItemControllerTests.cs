@@ -9,8 +9,9 @@ using ToDoAPI.Core.Models;
 using ToDoAPI.MockService.Test;
 using AutoMapper;
 using ToDoListAPI.ToDoAPI.Mappings;
-using ToDoListAPI.ToDoAPI.DTO;
+using ToDoListAPI.ToDoBLL.DTO;
 using Microsoft.AspNetCore.JsonPatch;
+using ToDoAPI.Core.Utilities;
 
 namespace ToDoAPI.Test
 {

@@ -1,8 +1,7 @@
-using ToDoAPI.Core.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Threading.Tasks;
+using ToDoAPI.Core.Utilities;
 
 namespace ToDoListAPI.ToDoAPI.Middleware
 {

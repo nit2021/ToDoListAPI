@@ -4,9 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.JsonPatch;
 using ToDoAPI.Core.Models;
+using ToDoAPI.Core.Utilities;
 using ToDoAPI.Test;
-using ToDoListAPI.ToDoAPI.DTO;
-using ToDoListAPI.ToDoAPI.Services;
+using ToDoListAPI.ToDoBLL.DTO;
+using ToDoListAPI.ToDoBLL.Services;
 
 namespace ToDoAPI.MockService.Test
 {

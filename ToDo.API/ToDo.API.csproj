@@ -24,6 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ToDo.Core\ToDo.Core.csproj" />
     <ProjectReference Include="..\ToDo.DAL\ToDo.DAL.csproj" />
+    <ProjectReference Include="..\ToDo.BLL\ToDo.BLL.csproj" />
   </ItemGroup>
 
 </Project>

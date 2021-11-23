@@ -1,4 +1,4 @@
-using ToDoListAPI.ToDoAPI.Services;
+using ToDoListAPI.ToDoBLL.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -10,7 +10,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
-namespace ToDoListAPI.ToDoAPI.BasicAuth
+namespace ToDoListAPI.ToDoBLL.Handlers
 {
     public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {

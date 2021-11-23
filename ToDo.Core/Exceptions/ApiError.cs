@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace ToDoListAPI.ToDoAPI.Exceptions
+namespace ToDoAPI.Core.Exceptions
 {
     public class ApiError
     {

@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using ToDoAPI.Core.Models;
-using ToDoListAPI.ToDoAPI.DTO;
-using ToDoListAPI.ToDoAPI.Services;
+using ToDoListAPI.ToDoBLL.DTO;
+using ToDoListAPI.ToDoBLL.Services;
 
 namespace ToDoListAPI.ToDoAPI.Controllers
 {

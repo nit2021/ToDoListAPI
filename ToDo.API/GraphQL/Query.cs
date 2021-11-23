@@ -1,6 +1,7 @@
-using ToDoListAPI.ToDoAPI.Services;
+using ToDoListAPI.ToDoBLL.Services;
 using ToDoAPI.Core.Models;
 using System.Threading.Tasks;
+using ToDoAPI.Core.Utilities;
 
 namespace ToDoListAPI.ToDoAPI.GraphQL
 {

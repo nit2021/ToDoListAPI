@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace ToDoAPI.Core.Models
+namespace ToDoAPI.Core.Utilities
 {
     public class PagedList<T> : List<T>
     {

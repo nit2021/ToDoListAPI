@@ -3,7 +3,7 @@ using System.Text;
 using System.Security.Cryptography;
 using System.IO;
 
-namespace ToDoAPI.Core.Models
+namespace ToDoAPI.Core.Utilities
 {
     public class Cryptography
     {

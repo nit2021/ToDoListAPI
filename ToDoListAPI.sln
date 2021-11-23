@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoCore", "ToDo.Core\ToDo.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoDAL", "ToDo.DAL\ToDo.DAL.csproj", "{31CA4051-B0F5-4967-99E3-717C7718886F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDo.BLL", "ToDo.BLL\ToDo.BLL.csproj", "{B6D3A59F-B69C-46C1-B134-8E5341DE681A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,5 +74,17 @@ Global
 		{31CA4051-B0F5-4967-99E3-717C7718886F}.Release|x64.Build.0 = Release|Any CPU
 		{31CA4051-B0F5-4967-99E3-717C7718886F}.Release|x86.ActiveCfg = Release|Any CPU
 		{31CA4051-B0F5-4967-99E3-717C7718886F}.Release|x86.Build.0 = Release|Any CPU
+		{B6D3A59F-B69C-46C1-B134-8E5341DE681A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6D3A59F-B69C-46C1-B134-8E5341DE681A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6D3A59F-B69C-46C1-B134-8E5341DE681A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B6D3A59F-B69C-46C1-B134-8E5341DE681A}.Debug|x64.Build.0 = Debug|Any CPU
+		{B6D3A59F-B69C-46C1-B134-8E5341DE681A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B6D3A59F-B69C-46C1-B134-8E5341DE681A}.Debug|x86.Build.0 = Debug|Any CPU
+		{B6D3A59F-B69C-46C1-B134-8E5341DE681A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6D3A59F-B69C-46C1-B134-8E5341DE681A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6D3A59F-B69C-46C1-B134-8E5341DE681A}.Release|x64.ActiveCfg = Release|Any CPU
+		{B6D3A59F-B69C-46C1-B134-8E5341DE681A}.Release|x64.Build.0 = Release|Any CPU
+		{B6D3A59F-B69C-46C1-B134-8E5341DE681A}.Release|x86.ActiveCfg = Release|Any CPU
+		{B6D3A59F-B69C-46C1-B134-8E5341DE681A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

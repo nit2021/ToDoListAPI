@@ -9,8 +9,9 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using ToDoAPI.Core.Models;
-using ToDoListAPI.ToDoAPI.DTO;
-using ToDoListAPI.ToDoAPI.Services;
+using ToDoAPI.Core.Utilities;
+using ToDoListAPI.ToDoBLL.DTO;
+using ToDoListAPI.ToDoBLL.Services;
 
 namespace ToDoListAPI.ToDoAPI.Controllers
 {

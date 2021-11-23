@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 using ToDoAPI.Core.Models;
-using ToDoListAPI.ToDoAPI.DTO;
+using ToDoListAPI.ToDoBLL.DTO;
 
-namespace ToDoListAPI.ToDoAPI.Services
+namespace ToDoListAPI.ToDoBLL.Services
 {
     public interface IUserService
     {

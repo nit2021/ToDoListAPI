@@ -1,8 +1,6 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 
-namespace ToDoListAPI.ToDoAPI.DTO
+namespace ToDoListAPI.ToDoBLL.DTO
 {
     [DataContract]
     public class UsersDTO

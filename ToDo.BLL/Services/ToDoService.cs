@@ -6,9 +6,10 @@ using ToDoAPI.DAL;
 using ToDoAPI.Core.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using System;
-using ToDoListAPI.ToDoAPI.DTO;
+using ToDoListAPI.ToDoBLL.DTO;
+using ToDoAPI.Core.Utilities;
 
-namespace ToDoListAPI.ToDoAPI.Services
+namespace ToDoListAPI.ToDoBLL.Services
 {
     public class ToDoService : IToDoService
     {
