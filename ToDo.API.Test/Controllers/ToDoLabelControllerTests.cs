@@ -13,7 +13,7 @@ using ToDoListAPI.ToDoAPI.Mappings;
 namespace ToDoAPI.Test
 {
     [TestClass]
-    public class ToDoLabelTest
+    public class ToDoLabelControllerTests
     {
 
         /// <summary>

@@ -15,7 +15,7 @@ using ToDoListAPI.ToDoAPI.DTO;
 namespace ToDoAPI.Test
 {
     [TestClass]
-    public class ToDoItemTest
+    public class ToDoItemControllerTests
     {
         /// <summary>
         /// The MockToDoAPI service

@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.JsonPatch;
 namespace ToDoAPI.Test
 {
     [TestClass]
-    public class ToDoListItemTest
+    public class ToDoListItemControllerTests
     {
         /// <summary>
         /// The MockToDoAPI service

@@ -12,7 +12,7 @@ using ToDoListAPI.ToDoAPI.Mappings;
 namespace ToDoAPI.Test
 {
     [TestClass]
-    public class ToDoUserTest
+    public class ToDoRegisterControllerTests
     {
         /// <summary>
         /// The MockToDoAPI service
