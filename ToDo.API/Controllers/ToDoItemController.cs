@@ -69,8 +69,6 @@ namespace ToDoListAPI.ToDoAPI.Controllers
                 return NotFound(new { message = "Todo Item does not exists" });
             }
             var toDoItemDTO = _mapper.Map<ToDoItem, ToDoItemDTO>(todoItem);
-            var path = this.Url.ActionLink("GetTodoItem", "ToDoItem");
-            this.Response.Headers.Add("Location", path);
             return Ok(toDoItemDTO);
         }
 
